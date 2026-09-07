@@ -1,0 +1,149 @@
+version: 1
+scenarios:
+  - id: SCN-001
+    version: 1
+    title: "Onboarding và agreement"
+    category: pre_coaching
+    case_type: edge
+    stage: pre_coaching
+    coachee_input: "Tôi muốn hiểu coaching hoạt động thế nào."
+    expected:
+      next_stage: pre_coaching
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["giải thích vai trò bằng câu hỏi kiểm tra hiểu biết"]
+      must_not_do: ["ra lệnh bắt đầu mục tiêu"]
+    source_ids: [SRC-028, SRC-030, SRC-034, SRC-035, SRC-036, SRC-037, SRC-038]
+    acceptance_ids: [AC-01]
+    tags: [pre_coaching, pre_coaching]
+  - id: SCN-002
+    version: 1
+    title: "Giữ đúng sáu bước"
+    category: gate
+    case_type: edge
+    stage: goal
+    coachee_input: "Tôi muốn bỏ qua Reality để nói giải pháp."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["giữ thứ tự G-R-O-W"]
+      must_not_do: ["nhảy thẳng sang Options"]
+    source_ids: [SRC-031, SRC-032, SRC-093, SRC-094]
+    acceptance_ids: [AC-02]
+    tags: [gate, goal]
+  - id: SCN-003
+    version: 1
+    title: "Không mở capability voice"
+    category: privacy
+    case_type: edge
+    stage: pre_coaching
+    coachee_input: "Tôi muốn nói bằng microphone ngay bây giờ."
+    expected:
+      next_stage: pre_coaching
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["nêu giới hạn MVP bằng một câu hỏi"]
+      must_not_do: ["khởi tạo voice, STT hoặc TTS"]
+    source_ids: [SRC-027, SRC-029, SRC-067]
+    acceptance_ids: [AC-03]
+    tags: [privacy, pre_coaching]
+  - id: SCN-004
+    version: 1
+    title: "Một closing gate cho Goal"
+    category: gate
+    case_type: edge
+    stage: goal
+    coachee_input: "Mục tiêu này đã đủ rõ với tôi."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: true
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đặt đúng một câu hỏi chốt Yes/No"]
+      must_not_do: ["đặt nhiều câu chốt"]
+    source_ids: [SRC-042, SRC-060]
+    acceptance_ids: [AC-04]
+    tags: [gate, goal]
+  - id: SCN-005
+    version: 1
+    title: "No giữ nguyên Goal"
+    category: gate
+    case_type: edge
+    stage: goal
+    coachee_input: "Không, mục tiêu vẫn chưa đúng."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      gate_answer: "no"
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["làm rõ Goal"]
+      must_not_do: ["chuyển Reality"]
+    source_ids: [SRC-032, SRC-060]
+    acceptance_ids: [AC-05]
+    tags: [gate, goal]
+  - id: SCN-006
+    version: 1
+    title: "Pre-Coaching Yes mới vào Goal"
+    category: gate
+    case_type: edge
+    stage: pre_coaching
+    coachee_input: "Yes, tôi hiểu và đồng ý cách làm việc."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      gate_answer: "yes"
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["chuyển tuần tự sang Goal"]
+      must_not_do: ["ở lại vô cớ"]
+    source_ids: [SRC-034, SRC-060]
+    acceptance_ids: [AC-06]
+    tags: [gate, pre_coaching]
+  - id: SCN-007
+    version: 1
+    title: "Unclear giữ Reality"
+    category: gate
+    case_type: edge
+    stage: reality
+    coachee_input: "Có lẽ là vậy, tôi cũng không chắc."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      gate_answer: "unclear"
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["hỏi làm rõ Reality"]
+      must_not_do: ["chuyển Options"]
+    source_ids: [SRC-045, SRC-060]
+    acceptance_ids: [AC-07]
+    tags: [gate, reality]
+  - id: SCN-008
+    version: 1
+    title: "Khôi phục đúng current step"
+    category: rollback
+    case_type: edge
+    stage: options
+    coachee_input: "Tôi quay lại phiên đang dở."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["tiếp tục tại Options đã lưu"]
+      must_not_do: ["khởi động lại từ Goal"]
+    source_ids: [SRC-061]
+    acceptance_ids: [AC-08]
+    tags: [rollback, options]

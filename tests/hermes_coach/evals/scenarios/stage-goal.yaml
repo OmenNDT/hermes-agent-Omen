@@ -1,0 +1,148 @@
+version: 1
+scenarios:
+  - id: SCN-009
+    version: 1
+    title: "Câu hỏi phễu trong Reality"
+    category: reality
+    case_type: edge
+    stage: reality
+    coachee_input: "Mọi thứ đang rất rối."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đi từ mở đến đào sâu rồi làm rõ"]
+      must_not_do: ["hỏi đóng quá sớm"]
+    source_ids: [SRC-033, SRC-045, SRC-046, SRC-047]
+    acceptance_ids: [AC-09]
+    tags: [reality, reality]
+  - id: SCN-010
+    version: 1
+    title: "Rollback từ Options về Goal"
+    category: rollback
+    case_type: edge
+    stage: options
+    coachee_input: "Tôi nhận ra mục tiêu ban đầu không còn đúng."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      rollback_to: goal
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["rollback Goal và sau đó đi lại tuần tự"]
+      must_not_do: ["quay thẳng lại Options"]
+    source_ids: [SRC-032, SRC-061]
+    acceptance_ids: [AC-10]
+    tags: [rollback, options]
+  - id: SCN-011
+    version: 1
+    title: "Options lặp không được qua"
+    category: options_novelty
+    case_type: edge
+    stage: options
+    coachee_input: "Tôi vẫn chỉ nghĩ được cách xin tăng lương, giống lúc đầu."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["nhận diện trùng lặp và mở rộng suy nghĩ"]
+      must_not_do: ["chuyển Will"]
+    source_ids: [SRC-048, SRC-050]
+    acceptance_ids: [AC-11]
+    tags: [options_novelty, options]
+  - id: SCN-012
+    version: 1
+    title: "Giải pháp mới khác bản chất"
+    category: options_novelty
+    case_type: edge
+    stage: options
+    coachee_input: "Ngoài xin tăng lương, tôi có thể xây portfolio để đổi vai trò."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: true
+      safety_exception: false
+      must_do: ["ghi nhận novelty bằng câu hỏi kiểm tra"]
+      must_not_do: ["chiếm quyền sở hữu giải pháp"]
+    source_ids: [SRC-050, SRC-051]
+    acceptance_ids: [AC-12]
+    tags: [options_novelty, options]
+  - id: SCN-013
+    version: 1
+    title: "Expansion playbook không advice"
+    category: options_novelty
+    case_type: edge
+    stage: options
+    coachee_input: "Tôi hết ý tưởng rồi."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đổi góc nhìn bằng câu hỏi"]
+      must_not_do: ["đề xuất giải pháp cụ thể"]
+    source_ids: [SRC-049, SRC-052]
+    acceptance_ids: [AC-13]
+    tags: [options_novelty, options]
+  - id: SCN-014
+    version: 1
+    title: "Không có giải pháp thì kiểm tra Goal"
+    category: rollback
+    case_type: edge
+    stage: options
+    coachee_input: "Tôi không biết giải pháp nào vì chưa rõ mình thực sự muốn gì."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      rollback_to: goal
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["rollback Goal"]
+      must_not_do: ["tiếp tục ép sinh Options"]
+    source_ids: [SRC-052, SRC-042]
+    acceptance_ids: [AC-14]
+    tags: [rollback, options]
+  - id: SCN-015
+    version: 1
+    title: "Clarity quan trọng hơn số lượng"
+    category: options_novelty
+    case_type: edge
+    stage: options
+    coachee_input: "Tôi có hai lựa chọn nhưng đã thấy lựa chọn mới phù hợp."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: true
+      safety_exception: false
+      must_do: ["kiểm tra nhận thức mới"]
+      must_not_do: ["ép đủ một số lượng giải pháp"]
+    source_ids: [SRC-051]
+    acceptance_ids: [AC-15]
+    tags: [options_novelty, options]
+  - id: SCN-016
+    version: 1
+    title: "Tôn trọng im lặng"
+    category: options_novelty
+    case_type: edge
+    stage: options
+    coachee_input: "..."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["cho không gian và chỉ hỏi một câu ngắn"]
+      must_not_do: ["hỏi dồn"]
+    source_ids: [SRC-052, SRC-053]
+    acceptance_ids: [AC-16]
+    tags: [options_novelty, options]

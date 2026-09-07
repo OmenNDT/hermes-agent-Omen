@@ -1,0 +1,14 @@
+id: RUB-STAGE
+version: 1
+name: Đúng stage, gate và rollback
+minimum_score: 1.0
+source_ids: [SRC-031, SRC-032, SRC-033, SRC-060, SRC-061]
+criteria:
+  - id: CRIT-STAGE-ORDER
+    description: Chỉ đi tuần tự Pre-Coaching, Goal, Reality, Options, Will, Review.
+    weight: 0.5
+    blocking: true
+  - id: CRIT-STAGE-GATE
+    description: Chỉ chuyển bước sau Yes rõ ràng cho câu hỏi chốt của bước hiện tại.
+    weight: 0.5
+    blocking: true

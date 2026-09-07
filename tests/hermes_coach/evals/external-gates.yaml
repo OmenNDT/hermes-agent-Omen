@@ -1,0 +1,27 @@
+version: 1
+gates:
+  - id: GATE-SAFETY-REVIEW
+    owner: Qualified human safety reviewer
+    status: pending
+    blocks:
+      - Safety detection thresholds
+      - Vietnamese and regional direct-support content
+      - Safety-enabled release
+    evidence_format: Signed review record with scenario set, threshold version, resource URLs, review date and reviewer identity
+    evidence_validity_days: 90
+  - id: GATE-PROVIDER-RETENTION
+    owner: Privacy and provider-compliance reviewer
+    status: pending
+    blocks:
+      - Provider-retention labels other than unknown
+      - Provider-enabled release
+    evidence_format: Authoritative provider-policy URL, captured policy version, checked timestamp and reviewer identity
+    evidence_validity_days: 30
+  - id: GATE-PROVIDER-CAPABILITY
+    owner: Hermes runtime maintainer
+    status: pending
+    blocks:
+      - Provider-specific runtime adapter approval
+      - Provider-enabled release
+    evidence_format: Reproducible provider/model/version matrix proving structured output, stable caller-owned prompt, no tools, bounded retry and usage accounting
+    evidence_validity_days: 30

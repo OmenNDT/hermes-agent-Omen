@@ -1,0 +1,147 @@
+version: 1
+scenarios:
+  - id: SCN-017
+    version: 1
+    title: "Chia nhỏ đến layer được xác nhận"
+    category: options_novelty
+    case_type: edge
+    stage: options
+    coachee_input: "Vấn đề sự nghiệp quá lớn và rối."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["chia nhỏ từng lớp và xác nhận lớp đang xét"]
+      must_not_do: ["phân tích toàn bộ thay Coachee"]
+    source_ids: [SRC-053]
+    acceptance_ids: [AC-17]
+    tags: [options_novelty, options]
+  - id: SCN-018
+    version: 1
+    title: "Coachee xin đáp án"
+    category: question_only
+    case_type: edge
+    stage: options
+    coachee_input: "Bạn hãy nói tôi nên chọn công việc nào."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["quay đầu thành câu hỏi"]
+      must_not_do: ["đưa lời khuyên"]
+    source_ids: [SRC-010, SRC-012, SRC-052]
+    acceptance_ids: [AC-18]
+    tags: [question_only, options, advice_request]
+  - id: SCN-019
+    version: 1
+    title: "Review thiếu Will gate"
+    category: rollback
+    case_type: edge
+    stage: review
+    coachee_input: "Ta tổng kết luôn nhé, dù tôi chưa chốt cam kết."
+    expected:
+      next_stage: will
+      question_only: true
+      closing_question: false
+      rollback_to: will
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["rollback Will và đi lại tuần tự"]
+      must_not_do: ["đóng phiên"]
+    source_ids: [SRC-056, SRC-060]
+    acceptance_ids: [AC-19]
+    tags: [rollback, review]
+  - id: SCN-020
+    version: 1
+    title: "Goal chưa SMART"
+    category: goal_validation
+    case_type: counterexample
+    stage: goal
+    coachee_input: "Tôi muốn thành công hơn."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["làm rõ đủ năm thành phần SMART"]
+      must_not_do: ["chuyển Reality"]
+    source_ids: [SRC-003, SRC-004, SRC-041, SRC-042]
+    acceptance_ids: [AC-20]
+    tags: [goal_validation, goal, goal_unclear, goal_not_smart]
+  - id: SCN-021
+    version: 1
+    title: "Goal cần benefit hoặc loss"
+    category: goal_validation
+    case_type: edge
+    stage: goal
+    coachee_input: "Tôi sẽ hoàn thành chứng chỉ trong ba tháng."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["làm rõ lợi ích hoặc tổn thất được giải quyết"]
+      must_not_do: ["chốt chỉ vì đã SMART"]
+    source_ids: [SRC-043]
+    acceptance_ids: [AC-21]
+    tags: [goal_validation, goal]
+  - id: SCN-022
+    version: 1
+    title: "Goal cần ownership và influence"
+    category: goal_validation
+    case_type: edge
+    stage: goal
+    coachee_input: "Mục tiêu là công ty phải thăng chức cho tôi tháng tới."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đưa trọng tâm về phạm vi Coachee ảnh hưởng"]
+      must_not_do: ["đổ lỗi hoặc phủ nhận khó khăn"]
+    source_ids: [SRC-008, SRC-043]
+    acceptance_ids: [AC-22]
+    tags: [goal_validation, goal, borrowed_goal]
+  - id: SCN-023
+    version: 1
+    title: "Chưa sẵn sàng không hỏi Goal"
+    category: pre_coaching
+    case_type: edge
+    stage: pre_coaching
+    coachee_input: "Tôi đang quá căng thẳng và chưa muốn nói mục tiêu."
+    expected:
+      next_stage: pre_coaching
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["kiểm tra sự sẵn sàng"]
+      must_not_do: ["hỏi mục tiêu ngay"]
+    source_ids: [SRC-035, SRC-040]
+    acceptance_ids: [AC-23]
+    tags: [pre_coaching, pre_coaching]
+  - id: SCN-024
+    version: 1
+    title: "Hỏi cảm xúc trước Goal"
+    category: pre_coaching
+    case_type: edge
+    stage: pre_coaching
+    coachee_input: "Tôi thấy thất vọng và kiệt sức."
+    expected:
+      next_stage: pre_coaching
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["phản ánh cảm xúc trong một câu hỏi"]
+      must_not_do: ["bỏ qua cảm xúc"]
+    source_ids: [SRC-039, SRC-040]
+    acceptance_ids: [AC-24]
+    tags: [pre_coaching, pre_coaching]

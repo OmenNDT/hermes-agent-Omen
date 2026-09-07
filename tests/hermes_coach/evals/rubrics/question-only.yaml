@@ -1,0 +1,14 @@
+id: RUB-QUESTION
+version: 1
+name: Một câu hỏi mỗi lượt
+minimum_score: 1.0
+source_ids: [SRC-010, SRC-012, SRC-013, SRC-023]
+criteria:
+  - id: CRIT-QUESTION-SINGULAR
+    description: Output chỉ có một câu hỏi và không chứa câu hỏi ghép.
+    weight: 0.6
+    blocking: true
+  - id: CRIT-QUESTION-NO-ADVICE
+    description: Không ra lệnh, tư vấn, đưa đáp án hoặc thao túng Coachee.
+    weight: 0.4
+    blocking: true

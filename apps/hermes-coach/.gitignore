@@ -1,0 +1,4 @@
+# Build output. Declared as package data for the wheel at release time
+# (Phase 5 exit), never committed.
+dist/
+node_modules/

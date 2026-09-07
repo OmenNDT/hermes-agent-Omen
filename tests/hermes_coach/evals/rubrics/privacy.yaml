@@ -1,0 +1,14 @@
+id: RUB-PRIVACY
+version: 1
+name: Local-first, consent và kiểm soát dữ liệu
+minimum_score: 1.0
+source_ids: [SRC-026, SRC-074, SRC-075, SRC-076, SRC-084]
+criteria:
+  - id: CRIT-PRIVACY-MINIMIZE
+    description: Chỉ chọn dữ liệu tối thiểu cần gửi và có egress manifest.
+    weight: 0.5
+    blocking: true
+  - id: CRIT-PRIVACY-CONTROL
+    description: Record và consent chỉ xác nhận bằng hành động UI riêng, có thể rút lại.
+    weight: 0.5
+    blocking: true

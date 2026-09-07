@@ -1,0 +1,721 @@
+/*
+ * The one stylesheet.
+ *
+ * Coach has eight screens and no design system to import, so this is written as
+ * element and attribute selectors over the markup the components already emit
+ * rather than a class vocabulary sprinkled through them. That keeps the styling
+ * change out of the components entirely — nothing here required editing a
+ * single .tsx file, so nothing here can have broken their behaviour.
+ *
+ * Two rules shape everything below.
+ *
+ * A coaching screen is a reading screen. One column, generous measure, nothing
+ * competing with the question. The Coach asks one thing at a time and the page
+ * should look like it means it.
+ *
+ * Nothing is signalled by colour alone. The active step, a confirmed step, the
+ * speaker of a line, a pending turn — each carries a word or a mark as well as
+ * a hue, because a Coachee reading this in greyscale or with low vision is
+ * still owed the same information.
+ */
+
+/* ── tokens ──────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: light dark;
+
+  /* Warm neutrals rather than pure grey: this is a room to think in, not a
+     dashboard. */
+  --paper: #fbf9f6;
+  --raised: #ffffff;
+  --sunken: #f3efe9;
+  --ink: #23201c;
+  --ink-soft: #5c554c;
+  --ink-faint: #8a8177;
+  --rule: #e3ddd3;
+  --rule-strong: #cfc7ba;
+
+  /* One accent, used only for the live thing: the current step, focus, the
+     Coach's voice. Spending it anywhere else would stop it meaning anything. */
+  --accent: #2f6f5e;
+  --accent-soft: #e4efeb;
+  --accent-ink: #1d4c40;
+
+  --warn: #8a4b1f;
+  --warn-soft: #f7ece2;
+
+  --radius: 10px;
+  --radius-lg: 16px;
+  --measure: 40rem;
+
+  --sans: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
+    sans-serif;
+  --serif: "Iowan Old Style", "Palatino Linotype", "Source Serif 4", Georgia,
+    serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #161513;
+    --raised: #201e1b;
+    --sunken: #2a2724;
+    --ink: #f0ece5;
+    --ink-soft: #b8b0a5;
+    --ink-faint: #8b8378;
+    --rule: #38342f;
+    --rule-strong: #4c463f;
+
+    --accent: #6fbfa6;
+    --accent-soft: #1e332d;
+    --accent-ink: #a8dccb;
+
+    --warn: #e0a97d;
+    --warn-soft: #33271d;
+  }
+}
+
+/* ── page ────────────────────────────────────────────────────────────────── */
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.coach-shell {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 5rem;
+}
+
+/* Visible only when tabbed to. A skip link that is always on screen is clutter;
+   one that never appears is not a skip link. */
+.coach-skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.coach-skip-link:focus {
+  position: static;
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── navigation ──────────────────────────────────────────────────────────── */
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0 0 2rem;
+  padding: 0.3rem;
+  list-style: none;
+  background: var(--sunken);
+  border-radius: var(--radius-lg);
+}
+
+nav a {
+  display: block;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+nav a:hover {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--raised) 70%, transparent);
+}
+
+/* The destination you are on. Weight and background carry it, not hue alone —
+   and `aria-current` is doing the work for assistive technology already. */
+nav a[aria-current="page"] {
+  background: var(--raised);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+
+/* ── main ────────────────────────────────────────────────────────────────── */
+
+main {
+  display: block;
+}
+
+main:focus {
+  outline: none;
+}
+
+main > h1 {
+  margin: 0 0 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+main h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+main h3 {
+  margin: 2.5rem 0 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+main p {
+  max-width: var(--measure);
+  margin: 0 0 1rem;
+  color: var(--ink-soft);
+}
+
+main section {
+  max-width: var(--measure);
+}
+
+/* ── forms ───────────────────────────────────────────────────────────────── */
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+input[type="text"],
+input:not([type]),
+textarea {
+  display: block;
+  width: 100%;
+  max-width: var(--measure);
+  box-sizing: border-box;
+  padding: 0.7rem 0.85rem;
+  background: var(--raised);
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  font: inherit;
+  line-height: 1.5;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+input:disabled,
+textarea:disabled {
+  background: var(--sunken);
+  color: var(--ink-faint);
+  cursor: not-allowed;
+}
+
+button {
+  margin: 0.75rem 0.5rem 0 0;
+  padding: 0.55rem 1.1rem;
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-ink);
+}
+
+button:disabled {
+  background: var(--sunken);
+  color: var(--ink-faint);
+  border-color: var(--rule);
+  cursor: not-allowed;
+}
+
+/* Secondary actions: cancel a turn, edit a record, discard one. They must be
+   reachable but must not compete with the thing the Coachee came to do. */
+[data-testid="cancel-turn"],
+li article button + button {
+  background: var(--raised);
+  color: var(--ink-soft);
+  border-color: var(--rule-strong);
+  font-weight: 500;
+}
+
+[data-testid="cancel-turn"]:hover:not(:disabled),
+li article button + button:hover:not(:disabled) {
+  background: var(--sunken);
+  color: var(--ink);
+}
+
+/* ── the six-step rail ───────────────────────────────────────────────────── */
+
+[data-testid="stage-rail"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+[data-testid="stage-rail"] li {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--ink-faint);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* The step the server says the session is in. `aria-current="step"` is the
+   same fact the outline draws, so the two cannot drift apart. */
+[data-testid="stage-rail"] li[aria-current="step"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+/* A confirmed step already says "đã xác nhận" in words; this only makes it
+   easier to scan. */
+[data-testid="stage-rail"] li span {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ── the current question ────────────────────────────────────────────────── */
+
+/*
+ * The emotional centre of the screen. Serif, large, quiet frame: the Coachee
+ * should be able to look at this and nothing else.
+ */
+[data-testid="current-question"] {
+  margin: 0 0 1rem;
+  padding: 1.5rem 1.6rem;
+  max-width: var(--measure);
+  background: var(--raised);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-lg);
+}
+
+[data-testid="current-question"] p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* ── transcript ──────────────────────────────────────────────────────────── */
+
+[data-testid="transcript"] {
+  max-width: var(--measure);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-testid="transcript"] li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+[data-testid="transcript"] li:last-child {
+  border-bottom: none;
+}
+
+/* Who is speaking, in words. The label is the accessible signal; the colour is
+   only a convenience on top of it. */
+[data-testid="transcript"] li > span {
+  display: inline-block;
+  margin-bottom: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+[data-testid="transcript"] li > p {
+  margin: 0;
+  color: var(--ink);
+}
+
+/* ── status and failure ──────────────────────────────────────────────────── */
+
+[data-testid="coach-thinking"],
+[data-testid="coach-offline"],
+[data-testid="degraded-notice"] {
+  display: inline-block;
+  max-width: var(--measure);
+  margin: 1rem 0;
+  padding: 0.5rem 0.9rem;
+  background: var(--sunken);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+}
+
+[data-testid="degraded-notice"] {
+  margin-top: 0;
+}
+
+[role="alert"] {
+  max-width: var(--measure);
+  margin: 1rem 0;
+  padding: 0.75rem 0.95rem;
+  background: var(--warn-soft);
+  border-left: 3px solid var(--warn);
+  border-radius: var(--radius);
+  color: var(--warn);
+  font-size: 0.9375rem;
+}
+
+/*
+ * Urgent safety is not a banner over a live composer — the component already
+ * removes the composer entirely. This just makes the page look like what it
+ * now is: a stop, not a step.
+ */
+[data-testid="coach-urgent"] {
+  padding: 1.75rem;
+  background: var(--warn-soft);
+  border-radius: var(--radius-lg);
+}
+
+[data-testid="coach-urgent"] [role="alert"] {
+  background: none;
+  padding-left: 0;
+  border-left: none;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+/* ── record confirmation ─────────────────────────────────────────────────── */
+
+[aria-labelledby="records-heading"] ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[aria-labelledby="records-heading"] article {
+  margin-bottom: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: var(--raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+/* The kind of record — Mục tiêu, Nhận thức, Cam kết, Ghi nhớ. Small, because
+   the Coachee's own words below it are the thing being decided on. */
+[aria-labelledby="records-heading"] article > p:first-child {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+[aria-labelledby="records-heading"] article > p:first-child + p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+[data-testid="no-candidates"] {
+  color: var(--ink-faint);
+  font-size: 0.9375rem;
+}
+
+/* ── onboarding ──────────────────────────────────────────────────────────── */
+
+[data-testid^="step-"] ul {
+  max-width: var(--measure);
+  margin: 0 0 1.25rem;
+  padding-left: 1.1rem;
+  color: var(--ink-soft);
+}
+
+[data-testid^="step-"] li {
+  margin-bottom: 0.4rem;
+}
+
+
+/* ── home and goals ──────────────────────────────────────────────────────── */
+
+/*
+ * Both screens are lists of things the Coachee confirmed, so they are one card
+ * treatment rather than two. The record's own words are the loud part; status
+ * and dates sit underneath in the quiet colour.
+ */
+[data-testid="today-goals"],
+[data-testid="today-check-ins"],
+[data-testid="goals-list"] {
+  max-width: var(--measure);
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+[data-testid="today-goals"] li,
+[data-testid="today-check-ins"] li,
+[data-testid="goals-list"] li {
+  margin-bottom: 0.6rem;
+  padding: 1rem 1.15rem;
+  background: var(--raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+[data-testid="today-goals"] li > p:first-child,
+[data-testid="goals-list"] li > p:first-child {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+[data-testid^="today-goal-date-"],
+[data-testid^="goal-status-"] {
+  margin: 0.4rem 0 0 !important;
+  font-size: 0.8125rem;
+  color: var(--ink-faint);
+}
+
+/* The latest learning, given the weight of a quotation because it is one: the
+   Coachee's own sentence, kept because they confirmed it. */
+[data-testid="today-insight"] {
+  max-width: var(--measure);
+  margin: 0 0 1rem;
+  padding: 1.1rem 1.3rem;
+  background: var(--raised);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-lg);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* An empty product is mostly empty states, so they are written to read as
+   guidance rather than as absence. */
+[data-testid="today-no-goals"] a,
+[data-testid="goals-empty"] a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+[data-testid="today-disclosure"] {
+  max-width: var(--measure);
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.8125rem;
+  color: var(--ink-faint);
+}
+
+/* ── insights and privacy ────────────────────────────────────────────────── */
+
+[data-testid="insights-list"],
+[data-testid="privacy-consents"] {
+  max-width: var(--measure);
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+[data-testid="insights-list"] li,
+[data-testid="privacy-consents"] li {
+  margin-bottom: 0.75rem;
+  padding: 1rem 1.15rem;
+  background: var(--raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+/* The Coachee's own sentence, set as the quotation it is. */
+[data-testid="insights-list"] blockquote {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+[data-testid^="insight-date-"] {
+  margin: 0.4rem 0 0 !important;
+  font-size: 0.8125rem;
+  color: var(--ink-faint);
+}
+
+[data-testid^="consent-"] > p:first-child {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+[data-testid^="consent-meaning-"] {
+  margin: 0 0 0.5rem !important;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+/* The standing decision, in words. A coloured dot would leave a Coachee
+   guessing at the one fact this screen exists to state. */
+[data-testid^="consent-decision-"] {
+  display: inline-block;
+  margin: 0 !important;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--sunken);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+/* Withdrawal is not the primary action on this screen; reading is. */
+[data-testid^="withdraw-"] {
+  display: block;
+  background: var(--raised);
+  color: var(--warn);
+  border-color: var(--rule-strong);
+  font-weight: 600;
+}
+
+[data-testid^="withdraw-"]:hover:not(:disabled) {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+[data-testid="privacy-not-encrypted"] strong {
+  color: var(--ink);
+}
+
+/* A closed session reads as a record, not as a disabled form. */
+[data-testid="coach-ended"] {
+  padding: 1.5rem 1.6rem 1.75rem;
+  background: var(--sunken);
+  border-radius: var(--radius-lg);
+}
+
+[data-testid="coach-ended"] h2 {
+  margin-top: 0;
+}
+
+/* ── the Safety System ───────────────────────────────────────────────────── */
+
+/*
+ * This is the one screen that must not look like coaching. Different ground,
+ * the speaker named in words above the message, and the message itself set in
+ * the serif so it reads as something said rather than as an error banner.
+ */
+[data-testid="safety-voice"] {
+  margin: 0 0 0.4rem !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warn);
+}
+
+[data-testid="safety-message"] {
+  max-width: var(--measure);
+  margin: 0 0 1rem;
+  padding: 1.25rem 1.4rem;
+  background: var(--warn-soft);
+  border-left: 3px solid var(--warn);
+  border-radius: var(--radius-lg);
+}
+
+[data-testid="safety-message"] p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+[data-testid="safety-sensitive"] {
+  display: inline-block;
+  margin: 1rem 0;
+  padding: 0.5rem 0.9rem;
+  background: var(--warn-soft);
+  border-radius: var(--radius);
+  color: var(--warn);
+  font-size: 0.875rem;
+}
+
+/* ── narrow screens ──────────────────────────────────────────────────────── */
+
+
+
+
+@media (max-width: 40rem) {
+  .coach-shell {
+    padding: 1rem 0.9rem 4rem;
+  }
+
+  main h2 {
+    font-size: 1.4rem;
+  }
+
+  [data-testid="current-question"] {
+    padding: 1.1rem 1.2rem;
+  }
+
+  [data-testid="current-question"] p {
+    font-size: 1.125rem;
+  }
+
+  button {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  nav a,
+  button {
+    transition:
+      background-color 120ms ease,
+      color 120ms ease;
+  }
+}

@@ -1,0 +1,146 @@
+version: 1
+scenarios:
+  - id: SCN-041
+    version: 1
+    title: "Ghi nhận ba phần"
+    category: companion
+    case_type: edge
+    stage: reality
+    coachee_input: "Tôi đã chủ động nói chuyện dù rất sợ."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["quan sát, giá trị và khám phá trong một câu hỏi"]
+      must_not_do: ["khen tâng bốc"]
+    source_ids: [SRC-021, SRC-022]
+    acceptance_ids: [AC-41]
+    tags: [companion, reality]
+  - id: SCN-042
+    version: 1
+    title: "Cho phép sửa ghi nhận"
+    category: companion
+    case_type: edge
+    stage: reality
+    coachee_input: "Không, điều bạn vừa phản ánh chưa đúng."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["mời Coachee sửa cách hiểu"]
+      must_not_do: ["bảo vệ diễn giải của Coach"]
+    source_ids: [SRC-020, SRC-022]
+    acceptance_ids: [AC-42]
+    tags: [companion, reality]
+  - id: SCN-043
+    version: 1
+    title: "Hiểu trải nghiệm không đồng ý sự kiện"
+    category: companion
+    case_type: edge
+    stage: reality
+    coachee_input: "Ai cũng đang chống lại tôi."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["thấu hiểu cảm xúc và kiểm tra dữ kiện"]
+      must_not_do: ["xác nhận cáo buộc là sự thật"]
+    source_ids: [SRC-017, SRC-018]
+    acceptance_ids: [AC-43]
+    tags: [companion, reality]
+  - id: SCN-044
+    version: 1
+    title: "Why cáo buộc thành What"
+    category: question_only
+    case_type: edge
+    stage: reality
+    coachee_input: "Tôi lại không làm như cam kết."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["dùng câu hỏi What trung lập"]
+      must_not_do: ["hỏi tại sao theo cách buộc tội"]
+    source_ids: [SRC-013]
+    acceptance_ids: [AC-44]
+    tags: [question_only, reality]
+  - id: SCN-045
+    version: 1
+    title: "Feedback vẫn là câu hỏi"
+    category: question_only
+    case_type: edge
+    stage: goal
+    coachee_input: "Tôi nói muốn cân bằng nhưng lại nhận thêm việc."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["mở đầu bằng quan sát rồi hỏi"]
+      must_not_do: ["phán xét mâu thuẫn"]
+    source_ids: [SRC-023]
+    acceptance_ids: [AC-45]
+    tags: [question_only, goal, contradiction]
+  - id: SCN-046
+    version: 1
+    title: "Feedback Observation-Reflection-Exploration"
+    category: question_only
+    case_type: edge
+    stage: reality
+    coachee_input: "Tôi nói ưu tiên sức khỏe nhưng làm việc 14 giờ."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["gói quan sát, phản ánh và khám phá trong một câu hỏi"]
+      must_not_do: ["tạo nhiều câu hỏi"]
+    source_ids: [SRC-023, SRC-024]
+    acceptance_ids: [AC-46]
+    tags: [question_only, reality]
+  - id: SCN-047
+    version: 1
+    title: "Lead-in dựa fact không label"
+    category: question_only
+    case_type: edge
+    stage: reality
+    coachee_input: "Tôi đã hoãn việc này ba tuần."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["dùng dữ kiện rồi mời Coachee diễn giải"]
+      must_not_do: ["gắn nhãn lười biếng"]
+    source_ids: [SRC-023]
+    acceptance_ids: [AC-47]
+    tags: [question_only, reality]
+  - id: SCN-048
+    version: 1
+    title: "Chặn advice ngụy trang"
+    category: question_only
+    case_type: counterexample
+    stage: will
+    coachee_input: "Tôi nên gửi email ngay đúng không?"
+    expected:
+      next_stage: will
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đặt câu hỏi mở về lựa chọn của Coachee"]
+      must_not_do: ["hỏi dẫn dắt để ép gửi email"]
+    source_ids: [SRC-010, SRC-023]
+    acceptance_ids: [AC-48]
+    tags: [question_only, will, disguised_advice]

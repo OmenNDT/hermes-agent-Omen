@@ -1,0 +1,1668 @@
+version: 1
+proposal:
+  path: docs/hermes-coach-product-proposal.md
+  sha256: 11afbe75bb08fa8ee19373f53f7ed02bbc6712fc12daa37f64cb74f9a303a4dd
+traceability:
+  path: docs/hermes-coach-requirements-traceability.md
+  source_section: Machine-Verifiable Heading Coverage Index
+  acceptance_section: Acceptance-Criteria Allocation
+phase_1:
+  required_sources: [SRC-000, SRC-001, SRC-002, SRC-003, SRC-004, SRC-005, SRC-006, SRC-007, SRC-008, SRC-009, SRC-010, SRC-011, SRC-012, SRC-013, SRC-014, SRC-015, SRC-016, SRC-017, SRC-018, SRC-019, SRC-020, SRC-021, SRC-022, SRC-023, SRC-024, SRC-025, SRC-026, SRC-027, SRC-028, SRC-029, SRC-030, SRC-031, SRC-032, SRC-033, SRC-034, SRC-035, SRC-036, SRC-037, SRC-038, SRC-039, SRC-040, SRC-041, SRC-042, SRC-043, SRC-044, SRC-045, SRC-046, SRC-047, SRC-048, SRC-049, SRC-050, SRC-051, SRC-052, SRC-053, SRC-054, SRC-055, SRC-056, SRC-057, SRC-058, SRC-059, SRC-060, SRC-061, SRC-070, SRC-071, SRC-072, SRC-073, SRC-074, SRC-075, SRC-087, SRC-088, SRC-089, SRC-090, SRC-091, SRC-092, SRC-093, SRC-094, SRC-096, SRC-097, SRC-098, SRC-099, SRC-100, SRC-101, SRC-102, SRC-103, SRC-104, SRC-105, SRC-106, SRC-107, SRC-108, SRC-109, SRC-110, SRC-111]
+  scenario_sources: [SRC-003, SRC-004, SRC-005, SRC-006, SRC-007, SRC-008, SRC-009, SRC-010, SRC-011, SRC-012, SRC-013, SRC-014, SRC-015, SRC-016, SRC-017, SRC-018, SRC-019, SRC-020, SRC-021, SRC-022, SRC-023, SRC-024, SRC-025, SRC-026, SRC-027, SRC-028, SRC-029, SRC-030, SRC-031, SRC-032, SRC-033, SRC-034, SRC-035, SRC-036, SRC-037, SRC-038, SRC-039, SRC-040, SRC-041, SRC-042, SRC-043, SRC-044, SRC-045, SRC-046, SRC-047, SRC-048, SRC-049, SRC-050, SRC-051, SRC-052, SRC-053, SRC-054, SRC-055, SRC-056, SRC-057, SRC-058, SRC-059, SRC-060, SRC-061, SRC-073, SRC-074, SRC-075, SRC-087, SRC-088, SRC-089, SRC-090, SRC-091, SRC-093, SRC-094]
+  contract_only_sources: [SRC-000, SRC-001, SRC-002, SRC-070, SRC-071, SRC-072, SRC-092, SRC-096, SRC-097, SRC-098, SRC-099, SRC-100, SRC-101, SRC-102, SRC-103, SRC-104, SRC-105, SRC-106, SRC-107, SRC-108, SRC-109, SRC-110, SRC-111]
+phase_2:
+  required_sources: [SRC-004, SRC-005, SRC-006, SRC-007, SRC-008, SRC-009, SRC-010, SRC-011, SRC-012, SRC-013, SRC-014, SRC-015, SRC-016, SRC-017, SRC-018, SRC-019, SRC-020, SRC-021, SRC-022, SRC-023, SRC-024, SRC-025, SRC-028, SRC-030, SRC-031, SRC-032, SRC-033, SRC-034, SRC-035, SRC-036, SRC-037, SRC-038, SRC-039, SRC-040, SRC-041, SRC-042, SRC-043, SRC-044, SRC-045, SRC-046, SRC-047, SRC-048, SRC-049, SRC-050, SRC-051, SRC-052, SRC-053, SRC-054, SRC-055, SRC-056, SRC-057, SRC-059, SRC-060, SRC-061, SRC-065, SRC-073, SRC-074, SRC-075, SRC-079, SRC-080, SRC-083, SRC-084, SRC-085, SRC-087, SRC-088, SRC-089, SRC-090, SRC-092, SRC-093, SRC-094, SRC-096, SRC-098, SRC-107, SRC-108]
+  acceptance_ids: [AC-01, AC-02, AC-04, AC-05, AC-06, AC-07, AC-08, AC-09, AC-10, AC-11, AC-12, AC-13, AC-14, AC-15, AC-16, AC-17, AC-18, AC-19, AC-20, AC-21, AC-22, AC-23, AC-24, AC-25, AC-26, AC-27, AC-28, AC-29, AC-30, AC-31, AC-32, AC-33, AC-34, AC-35, AC-36, AC-37, AC-38, AC-39, AC-40, AC-41, AC-42, AC-43, AC-44, AC-45, AC-46, AC-47, AC-48, AC-49, AC-50, AC-51, AC-56, AC-57]
+  production_bundles: [P-POLICY, P-STATE, P-GOAL, P-OPTIONS, P-RECORDS, P-SAFETY, P-PROMPT]
+  verification_bundles: [T-POLICY, T-STATE, T-GOAL, T-OPTIONS, T-RECORDS, T-SAFETY, T-PROMPT]
+  production_files:
+    - hermes_coach/domain/enums.py
+    - hermes_coach/domain/models.py
+    - hermes_coach/domain/session_state.py
+    - hermes_coach/domain/transitions.py
+    - hermes_coach/domain/goal_rules.py
+    - hermes_coach/domain/options_rules.py
+    - hermes_coach/policies/companion_policy.py
+    - hermes_coach/policies/listening_policy.py
+    - hermes_coach/policies/question_policy.py
+    - hermes_coach/policies/feedback_policy.py
+    - hermes_coach/policies/safety_policy.py
+    - hermes_coach/application/coaching_service.py
+    - hermes_coach/application/record_confirmation_service.py
+    - hermes_coach/application/safety_service.py
+    - hermes_coach/prompt/system_prompt.py
+    - hermes_coach/prompt/structured_context.py
+    - hermes_coach/prompt/output_schema.py
+    - hermes_coach/prompt/question_validator.py
+    - hermes_coach/prompt/regeneration.py
+  verification_files:
+    - tests/hermes_coach/unit/test_transitions.py
+    - tests/hermes_coach/unit/test_stage_completion.py
+    - tests/hermes_coach/unit/test_goal_rules.py
+    - tests/hermes_coach/unit/test_options_rules.py
+    - tests/hermes_coach/unit/test_companion_policy.py
+    - tests/hermes_coach/unit/test_listening_policy.py
+    - tests/hermes_coach/unit/test_question_policy.py
+    - tests/hermes_coach/unit/test_feedback_policy.py
+    - tests/hermes_coach/unit/test_question_validator.py
+    - tests/hermes_coach/unit/test_regeneration.py
+    - tests/hermes_coach/unit/test_coaching_service.py
+    - tests/hermes_coach/unit/test_adversarial_guards.py
+    - tests/hermes_coach/unit/test_prompt_contract.py
+    - tests/hermes_coach/unit/test_record_confirmation.py
+    - tests/hermes_coach/unit/test_record_confirmation_service.py
+    - tests/hermes_coach/unit/test_safety_policy.py
+    - tests/hermes_coach/contract/test_output_schema.py
+    - tests/hermes_coach/contract/test_prompt_byte_stability.py
+    - tests/hermes_coach/contract/test_requirements_coverage.py
+    - tests/hermes_coach/evals/pure_engine.py
+    - tests/hermes_coach/evals/test_eval_harness.py
+    - tests/hermes_coach/evals/test_phase2_engine.py
+# Phase 3 is in progress. required_sources/acceptance_ids are the full allocated
+# scope and are locked by the coverage test; the file lists grow as each
+# tests-first step lands, so they are not yet the whole phase.
+phase_3:
+  status: completed
+  completed_steps: [schema, migrations, connection, repository_active_scope, confirmation_atomicity, consent, retention, trash_lifecycle, context_egress_export, restart_recovery]
+  required_sources: [SRC-011, SRC-026, SRC-028, SRC-036, SRC-054, SRC-055, SRC-056, SRC-057, SRC-058, SRC-060, SRC-061, SRC-063, SRC-068, SRC-070, SRC-072, SRC-074, SRC-076, SRC-077, SRC-078, SRC-079, SRC-080, SRC-081, SRC-082, SRC-083, SRC-084, SRC-085, SRC-086, SRC-091, SRC-092, SRC-093, SRC-094, SRC-095, SRC-096, SRC-099, SRC-107, SRC-108]
+  acceptance_ids: [AC-01, AC-02, AC-04, AC-05, AC-06, AC-07, AC-08, AC-09, AC-10, AC-11, AC-14, AC-17, AC-19, AC-20, AC-21, AC-22, AC-23, AC-24, AC-25, AC-32, AC-49, AC-50, AC-51, AC-52, AC-53, AC-54, AC-55, AC-57, AC-58]
+  production_bundles: [P-DATA, P-RECORDS, P-PRIVACY, P-GOAL, P-STATE, P-CHECKIN, P-METRICS]
+  verification_bundles: [T-DATA, T-RECORDS, T-PRIVACY, T-GOAL, T-STATE, T-CHECKIN, T-METRICS]
+  production_files:
+    - hermes_coach/infrastructure/__init__.py
+    - hermes_coach/infrastructure/sqlite/__init__.py
+    - hermes_coach/infrastructure/sqlite/database.py
+    - hermes_coach/infrastructure/sqlite/migration_runner.py
+    - hermes_coach/infrastructure/sqlite/migrations/__init__.py
+    - hermes_coach/infrastructure/sqlite/migrations/0001_initial_schema.sql
+    - hermes_coach/domain/records.py
+    - hermes_coach/infrastructure/repositories/__init__.py
+    - hermes_coach/infrastructure/repositories/base.py
+    - hermes_coach/infrastructure/repositories/goal_repository.py
+    - hermes_coach/infrastructure/repositories/session_message_repository.py
+    - hermes_coach/infrastructure/repositories/candidate_repository.py
+    - hermes_coach/infrastructure/repositories/memory_repository.py
+    - hermes_coach/infrastructure/repositories/career_snapshot_repository.py
+    - hermes_coach/infrastructure/repositories/trash_repository.py
+    - hermes_coach/infrastructure/repositories/insight_repository.py
+    - hermes_coach/infrastructure/repositories/commitment_repository.py
+    - hermes_coach/infrastructure/repositories/consent_repository.py
+    - hermes_coach/infrastructure/repositories/confirmation_repository.py
+    - hermes_coach/infrastructure/sqlite/migrations/0002_confirmation_internals.sql
+    - hermes_coach/application/consent_service.py
+    - hermes_coach/application/durable_confirmation_service.py
+    - hermes_coach/application/retention_service.py
+    - hermes_coach/application/trash_service.py
+    - hermes_coach/application/context_selector.py
+    - hermes_coach/application/export_service.py
+    - hermes_coach/infrastructure/egress_audit.py
+    - hermes_coach/application/session_recovery_service.py
+    - hermes_coach/infrastructure/repositories/coaching_session_repository.py
+    - hermes_coach/infrastructure/repositories/gate_repository.py
+    - hermes_coach/infrastructure/repositories/check_in_repository.py
+    - hermes_coach/infrastructure/sqlite/migrations/0004_egress_audit.sql
+    - hermes_coach/domain/clock.py
+    - hermes_coach/infrastructure/sqlite/migrations/0003_retention_internals.sql
+  verification_files:
+    - tests/hermes_coach/persistence/test_sqlite_schema.py
+    - tests/hermes_coach/persistence/test_migrations.py
+    - tests/hermes_coach/persistence/test_database_connection.py
+    - tests/hermes_coach/persistence/test_active_scope.py
+    - tests/hermes_coach/persistence/test_durable_confirmation.py
+    - tests/hermes_coach/persistence/test_consent.py
+    - tests/hermes_coach/persistence/test_retention.py
+    - tests/hermes_coach/persistence/test_trash_lifecycle.py
+    - tests/hermes_coach/persistence/test_context_selection.py
+    - tests/hermes_coach/persistence/test_egress_and_export.py
+    - tests/hermes_coach/persistence/test_restart_recovery.py
+# Phase 4 is in progress. The runtime, API, CLI, packaging and the live
+# Anthropic provider have landed; a real Haiku turn has been driven end to end.
+phase_4:
+  status: in-progress
+  completed_steps: [runtime_adapter_fake_provider, loopback_security, rpc_app, rpc_envelope, cancellation, coaching_turn, startup_and_launcher, skill_snapshot, packaging, rpc_surface, candidate_confirmation_rpc, consent_rpc, live_provider, static_ui_serving]
+  required_sources: [SRC-001, SRC-028, SRC-065, SRC-070, SRC-071, SRC-072, SRC-073, SRC-074, SRC-075, SRC-086, SRC-092, SRC-094, SRC-096, SRC-100, SRC-104, SRC-105, SRC-106, SRC-107, SRC-108]
+  acceptance_ids: [AC-03, AC-26, AC-27, AC-33, AC-36, AC-44, AC-48, AC-54, AC-56]
+  production_bundles: [P-RUNTIME, P-API, P-PRODUCT, P-PROMPT, P-PRIVACY, P-DEPLOY]
+  verification_bundles: [T-RUNTIME, T-API, T-GOV, T-PROMPT, T-PRIVACY, T-DEPLOY]
+  production_files:
+    - hermes_coach/infrastructure/hermes_runtime_adapter.py
+    - hermes_coach/api/__init__.py
+    - hermes_coach/api/security.py
+    - hermes_coach/api/app.py
+    - hermes_coach/api/methods.py
+    - hermes_coach/infrastructure/repositories/rpc_repository.py
+    - hermes_coach/application/coaching_turn_service.py
+    - hermes_coach/bootstrap.py
+    - hermes_coach/__main__.py
+    - hermes_cli/coach_provider.py
+    - hermes_coach/infrastructure/sqlite/migrations/0005_rpc_envelope.sql
+  verification_files:
+    - tests/hermes_coach/runtime/test_hermes_runtime_adapter.py
+    - tests/hermes_coach/runtime/test_coach_provider.py
+    - tests/hermes_coach/runtime/test_static_ui.py
+    - tests/hermes_coach/runtime/test_loopback_security.py
+    - tests/hermes_coach/runtime/test_coach_app.py
+    - tests/hermes_coach/runtime/test_rpc_cancellation.py
+    - tests/hermes_coach/runtime/test_rpc_mutations.py
+    - tests/hermes_coach/runtime/test_coaching_turn.py
+    - tests/hermes_coach/runtime/test_coach_turn_rpc.py
+    - tests/hermes_coach/runtime/test_bootstrap.py
+    - tests/hermes_coach/runtime/test_launcher.py
+    - tests/hermes_coach/contract/test_skill_snapshot.py
+    - tests/hermes_coach/runtime/test_rpc_methods.py
+    - tests/hermes_coach/runtime/test_rpc_candidate_confirm.py
+    - tests/hermes_coach/runtime/test_rpc_consent.py
+    - tests/hermes_coach/persistence/test_rpc_envelope.py
+sources:
+  SRC-000:
+    heading_index: 0
+    traceability_row: SRC-000
+    heading: "Hermes Coach Product Proposal"
+    source_path: "Hermes Coach Product Proposal"
+    architecture: ["Overview", "Requirement Ownership"]
+    family: HC-GOV
+    phases: [1, 7]
+    production: [P-GOV]
+    verification: [T-GOV]
+  SRC-001:
+    heading_index: 1
+    traceability_row: SRC-001
+    heading: "Overview"
+    source_path: "Overview"
+    architecture: ["Overview", "System Context"]
+    family: HC-PRODUCT
+    phases: [1, 4, 5]
+    production: [P-PRODUCT, P-RUNTIME]
+    verification: [T-GOV, T-RUNTIME]
+  SRC-002:
+    heading_index: 2
+    traceability_row: SRC-002
+    heading: "Source of Truth and Change Control"
+    source_path: "Source of Truth and Change Control"
+    architecture: ["Requirement Ownership"]
+    family: HC-GOV
+    phases: [1, 7]
+    production: [P-GOV]
+    verification: [T-GOV]
+  SRC-003:
+    heading_index: 3
+    traceability_row: SRC-003
+    heading: "Problem Statement"
+    source_path: "Problem Statement"
+    architecture: ["Overview", "Evaluation and Verification"]
+    family: HC-PRODUCT
+    phases: [1, 5, 6]
+    production: [P-PRODUCT, P-RECORDS, P-CHECKIN]
+    verification: [T-UX, T-CHECKIN]
+  SRC-004:
+    heading_index: 4
+    traceability_row: SRC-004
+    heading: "Causal Coaching Thesis"
+    source_path: "Problem Statement > Causal Coaching Thesis"
+    architecture: ["Goal Validation"]
+    family: HC-GOAL
+    phases: [1, 2]
+    production: [P-GOAL, P-POLICY]
+    verification: [T-GOAL, T-POLICY]
+  SRC-005:
+    heading_index: 5
+    traceability_row: SRC-005
+    heading: "Product Principles"
+    source_path: "Product Principles"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-006:
+    heading_index: 6
+    traceability_row: SRC-006
+    heading: "Người đồng hành ngang vị thế"
+    source_path: "Product Principles > Người đồng hành ngang vị thế"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-007:
+    heading_index: 7
+    traceability_row: SRC-007
+    heading: "Nhận diện rào cản vô thức"
+    source_path: "Product Principles > Nhận diện rào cản vô thức"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY, P-STATE]
+    verification: [T-POLICY, T-STATE]
+  SRC-008:
+    heading_index: 8
+    traceability_row: SRC-008
+    heading: "Vòng tròn quan tâm và vòng tròn ảnh hưởng"
+    source_path: "Product Principles > Vòng tròn quan tâm và vòng tròn ảnh hưởng"
+    architecture: ["Goal Validation", "Companion Policies"]
+    family: HC-GOAL
+    phases: [1, 2]
+    production: [P-POLICY, P-GOAL]
+    verification: [T-GOAL, T-POLICY]
+  SRC-009:
+    heading_index: 9
+    traceability_row: SRC-009
+    heading: "Niềm tin bắt buộc vào tiềm năng của Coachee"
+    source_path: "Product Principles > Niềm tin bắt buộc vào tiềm năng của Coachee"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY, T-PROMPT]
+  SRC-010:
+    heading_index: 10
+    traceability_row: SRC-010
+    heading: "Chỉ đặt câu hỏi"
+    source_path: "Product Principles > Chỉ đặt câu hỏi"
+    architecture: ["Companion Policies", "Prompt and Cache"]
+    family: HC-COMPANION
+    phases: [1, 2, 5, 7]
+    production: [P-POLICY, P-PROMPT, P-SAFETY, P-UX]
+    verification: [T-POLICY, T-PROMPT, T-SAFETY]
+  SRC-011:
+    heading_index: 11
+    traceability_row: SRC-011
+    heading: "Quyền tự chủ"
+    source_path: "Product Principles > Quyền tự chủ"
+    architecture: ["Application Services and Confirmation"]
+    family: HC-RECORDS
+    phases: [2, 3, 5]
+    production: [P-RECORDS, P-UX]
+    verification: [T-RECORDS, T-UX]
+  SRC-012:
+    heading_index: 12
+    traceability_row: SRC-012
+    heading: "Kỹ năng đặt câu hỏi — quay đầu là hỏi"
+    source_path: "Product Principles > Kỹ năng đặt câu hỏi — quay đầu là hỏi"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-013:
+    heading_index: 13
+    traceability_row: SRC-013
+    heading: "Tiêu chí đặt câu hỏi dành cho Coach"
+    source_path: "Product Principles > Kỹ năng đặt câu hỏi — quay đầu là hỏi > Tiêu chí đặt câu hỏi dành cho Coach"
+    architecture: ["Companion Policies", "Prompt and Cache"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY, T-PROMPT]
+  SRC-014:
+    heading_index: 14
+    traceability_row: SRC-014
+    heading: "Một câu hỏi đúng phải làm được gì?"
+    source_path: "Product Principles > Kỹ năng đặt câu hỏi — quay đầu là hỏi > Một câu hỏi đúng phải làm được gì?"
+    architecture: ["Companion Policies", "Evaluation and Verification"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-015:
+    heading_index: 15
+    traceability_row: SRC-015
+    heading: "Lắng nghe sâu — 4 cấp độ"
+    source_path: "Product Principles > Lắng nghe sâu — 4 cấp độ"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY]
+  SRC-016:
+    heading_index: 16
+    traceability_row: SRC-016
+    heading: "L1 — Dừng suy nghĩ của Coach"
+    source_path: "Product Principles > Lắng nghe sâu — 4 cấp độ > L1 — Dừng suy nghĩ của Coach"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-017:
+    heading_index: 17
+    traceability_row: SRC-017
+    heading: "L2 — Dừng đánh giá"
+    source_path: "Product Principles > Lắng nghe sâu — 4 cấp độ > L2 — Dừng đánh giá"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-018:
+    heading_index: 18
+    traceability_row: SRC-018
+    heading: "L3 — Tập trung vào động cơ của Coachee"
+    source_path: "Product Principles > Lắng nghe sâu — 4 cấp độ > L3 — Tập trung vào động cơ của Coachee"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-019:
+    heading_index: 19
+    traceability_row: SRC-019
+    heading: "L4 — Lắng nghe từ tâm"
+    source_path: "Product Principles > Lắng nghe sâu — 4 cấp độ > L4 — Lắng nghe từ tâm"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-020:
+    heading_index: 20
+    traceability_row: SRC-020
+    heading: "Lắng nghe chủ động và phản ánh lại"
+    source_path: "Product Principles > Lắng nghe sâu — 4 cấp độ > Lắng nghe chủ động và phản ánh lại"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-021:
+    heading_index: 21
+    traceability_row: SRC-021
+    heading: "Ghi nhận trong khai vấn"
+    source_path: "Product Principles > Ghi nhận trong khai vấn"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-022:
+    heading_index: 22
+    traceability_row: SRC-022
+    heading: "Cấu trúc ghi nhận"
+    source_path: "Product Principles > Ghi nhận trong khai vấn > Cấu trúc ghi nhận"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-023:
+    heading_index: 23
+    traceability_row: SRC-023
+    heading: "Phản hồi trong khai vấn"
+    source_path: "Product Principles > Phản hồi trong khai vấn"
+    architecture: ["Companion Policies"]
+    family: HC-COMPANION
+    phases: [1, 2]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY, T-PROMPT]
+  SRC-024:
+    heading_index: 24
+    traceability_row: SRC-024
+    heading: "Câu hỏi theo từng bước"
+    source_path: "Product Principles > Phản hồi trong khai vấn > Câu hỏi theo từng bước"
+    architecture: ["Six-Step Engine", "Companion Policies"]
+    family: HC-PROCESS
+    phases: [1, 2]
+    production: [P-POLICY, P-STATE]
+    verification: [T-POLICY, T-STATE]
+  SRC-025:
+    heading_index: 25
+    traceability_row: SRC-025
+    heading: "Kỹ thuật thay đổi góc nhìn"
+    source_path: "Product Principles > Phản hồi trong khai vấn > Kỹ thuật thay đổi góc nhìn"
+    architecture: ["Options Novelty and Stuck Recovery"]
+    family: HC-OPTIONS
+    phases: [1, 2]
+    production: [P-OPTIONS, P-POLICY]
+    verification: [T-OPTIONS, T-POLICY]
+  SRC-026:
+    heading_index: 26
+    traceability_row: SRC-026
+    heading: "Local-first và minh bạch"
+    source_path: "Product Principles > Local-first và minh bạch"
+    architecture: ["Privacy, Security and Egress"]
+    family: HC-PRIVACY
+    phases: [1, 3, 5, 7]
+    production: [P-PRIVACY, P-DATA, P-DEPLOY]
+    verification: [T-PRIVACY, T-DEPLOY]
+  SRC-027:
+    heading_index: 27
+    traceability_row: SRC-027
+    heading: "Scope"
+    source_path: "Scope"
+    architecture: ["Overview", "Product Boundary"]
+    family: HC-PRODUCT
+    phases: [1, 7]
+    production: [P-GOV, P-PRODUCT]
+    verification: [T-GOV]
+  SRC-028:
+    heading_index: 28
+    traceability_row: SRC-028
+    heading: "MVP"
+    source_path: "Scope > MVP"
+    architecture: ["Planned Repository Layout", "capability sections"]
+    family: HC-PRODUCT
+    phases: [1, 2, 3, 4, 5, 6, 7]
+    production: [P-PRODUCT, P-POLICY, P-STATE, P-GOAL, P-OPTIONS, P-RECORDS, P-DATA, P-API, P-UX, P-CHECKIN, P-PRIVACY, P-SAFETY, P-PROMPT, P-RUNTIME, P-DEPLOY]
+    verification: [T-POLICY, T-STATE, T-GOAL, T-OPTIONS, T-RECORDS, T-DATA, T-API, T-UX, T-CHECKIN, T-PRIVACY, T-SAFETY, T-PROMPT, T-RUNTIME, T-DEPLOY]
+  SRC-029:
+    heading_index: 29
+    traceability_row: SRC-029
+    heading: "Out of Scope"
+    source_path: "Scope > Out of Scope"
+    architecture: ["Existing Hermes Integration Boundary", "Product Boundary"]
+    family: HC-PRODUCT
+    phases: [1, 7]
+    production: [P-GOV, P-PRODUCT]
+    verification: [T-GOV]
+  SRC-030:
+    heading_index: 30
+    traceability_row: SRC-030
+    heading: "Coaching Contract"
+    source_path: "Coaching Contract"
+    architecture: ["Web UX", "Application Services and Confirmation", "Safety"]
+    family: HC-COMPANION
+    phases: [1, 2, 5, 7]
+    production: [P-UX, P-RECORDS, P-SAFETY]
+    verification: [T-UX, T-RECORDS, T-SAFETY]
+  SRC-031:
+    heading_index: 31
+    traceability_row: SRC-031
+    heading: "Six-Step Coaching Process"
+    source_path: "Six-Step Coaching Process"
+    architecture: ["Six-Step Engine and State Machine"]
+    family: HC-PROCESS
+    phases: [1, 2]
+    production: [P-STATE, P-POLICY]
+    verification: [T-STATE, T-POLICY]
+  SRC-032:
+    heading_index: 32
+    traceability_row: SRC-032
+    heading: "Vòng lặp GROW và transition gates"
+    source_path: "Six-Step Coaching Process > Vòng lặp GROW và transition gates"
+    architecture: ["Six-Step Engine and State Machine"]
+    family: HC-PROCESS
+    phases: [1, 2]
+    production: [P-STATE]
+    verification: [T-STATE]
+  SRC-033:
+    heading_index: 33
+    traceability_row: SRC-033
+    heading: "Câu hỏi phễu"
+    source_path: "Six-Step Coaching Process > Vòng lặp GROW và transition gates > Câu hỏi phễu"
+    architecture: ["Companion Policies", "Six-Step Engine"]
+    family: HC-PROCESS
+    phases: [1, 2]
+    production: [P-POLICY, P-STATE]
+    verification: [T-POLICY, T-STATE]
+  SRC-034:
+    heading_index: 34
+    traceability_row: SRC-034
+    heading: "1 — Pre-Coaching"
+    source_path: "Six-Step Coaching Process > 1 — Pre-Coaching"
+    architecture: ["Six-Step Engine", "Web UX"]
+    family: HC-PROCESS-PRE
+    phases: [1, 2, 5]
+    production: [P-STATE, P-UX]
+    verification: [T-STATE, T-UX]
+  SRC-035:
+    heading_index: 35
+    traceability_row: SRC-035
+    heading: "Mục tiêu"
+    source_path: "Six-Step Coaching Process > 1 — Pre-Coaching > Mục tiêu"
+    architecture: ["Six-Step Engine", "Web UX"]
+    family: HC-PROCESS-PRE
+    phases: [1, 2, 5]
+    production: [P-STATE, P-UX]
+    verification: [T-STATE, T-UX]
+  SRC-036:
+    heading_index: 36
+    traceability_row: SRC-036
+    heading: "Thấu hiểu và thỏa thuận chung"
+    source_path: "Six-Step Coaching Process > 1 — Pre-Coaching > Thấu hiểu và thỏa thuận chung"
+    architecture: ["Six-Step Engine", "Confirmation"]
+    family: HC-PROCESS-PRE
+    phases: [1, 2, 3]
+    production: [P-STATE, P-RECORDS]
+    verification: [T-STATE, T-RECORDS]
+  SRC-037:
+    heading_index: 37
+    traceability_row: SRC-037
+    heading: "Câu hỏi mẫu"
+    source_path: "Six-Step Coaching Process > 1 — Pre-Coaching > Câu hỏi mẫu"
+    architecture: ["Companion Policies"]
+    family: HC-PROCESS-PRE
+    phases: [1, 2]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  SRC-038:
+    heading_index: 38
+    traceability_row: SRC-038
+    heading: "Chuẩn bị của Coach"
+    source_path: "Six-Step Coaching Process > 1 — Pre-Coaching > Chuẩn bị của Coach"
+    architecture: ["Companion Policies"]
+    family: HC-PROCESS-PRE
+    phases: [1, 2]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY]
+  SRC-039:
+    heading_index: 39
+    traceability_row: SRC-039
+    heading: "Chuẩn bị tâm thế cho Coach"
+    source_path: "Six-Step Coaching Process > 1 — Pre-Coaching > Chuẩn bị tâm thế cho Coach"
+    architecture: ["Companion Policies"]
+    family: HC-PROCESS-PRE
+    phases: [1, 2]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY]
+  SRC-040:
+    heading_index: 40
+    traceability_row: SRC-040
+    heading: "Lỗi thường gặp cần tránh"
+    source_path: "Six-Step Coaching Process > 1 — Pre-Coaching > Lỗi thường gặp cần tránh"
+    architecture: ["Six-Step Engine", "Companion Policies"]
+    family: HC-PROCESS-PRE
+    phases: [1, 2]
+    production: [P-STATE, P-POLICY]
+    verification: [T-STATE, T-POLICY]
+  SRC-041:
+    heading_index: 41
+    traceability_row: SRC-041
+    heading: "2 — Goal"
+    source_path: "Six-Step Coaching Process > 2 — Goal"
+    architecture: ["Goal Validation"]
+    family: HC-GOAL
+    phases: [1, 2]
+    production: [P-GOAL, P-STATE]
+    verification: [T-GOAL, T-STATE]
+  SRC-042:
+    heading_index: 42
+    traceability_row: SRC-042
+    heading: "Mục tiêu bắt buộc SMART và đúng với Coachee"
+    source_path: "Six-Step Coaching Process > 2 — Goal > Mục tiêu bắt buộc SMART và đúng với Coachee"
+    architecture: ["Goal Validation"]
+    family: HC-GOAL
+    phases: [1, 2]
+    production: [P-GOAL, P-STATE]
+    verification: [T-GOAL, T-STATE]
+  SRC-043:
+    heading_index: 43
+    traceability_row: SRC-043
+    heading: "Tiêu chí mục tiêu hợp lệ"
+    source_path: "Six-Step Coaching Process > 2 — Goal > Tiêu chí mục tiêu hợp lệ"
+    architecture: ["Goal Validation"]
+    family: HC-GOAL
+    phases: [1, 2]
+    production: [P-GOAL, P-POLICY]
+    verification: [T-GOAL]
+  SRC-044:
+    heading_index: 44
+    traceability_row: SRC-044
+    heading: "Case study — một câu hỏi làm lộ mục tiêu thật"
+    source_path: "Six-Step Coaching Process > 2 — Goal > Case study — một câu hỏi làm lộ mục tiêu thật"
+    architecture: ["Goal Validation", "Evaluation"]
+    family: HC-GOAL
+    phases: [1, 2]
+    production: [P-POLICY, P-GOAL]
+    verification: [T-GOAL, T-POLICY]
+  SRC-045:
+    heading_index: 45
+    traceability_row: SRC-045
+    heading: "3 — Reality"
+    source_path: "Six-Step Coaching Process > 3 — Reality"
+    architecture: ["Six-Step Engine"]
+    family: HC-PROCESS-REALITY
+    phases: [1, 2]
+    production: [P-STATE, P-POLICY]
+    verification: [T-STATE, T-POLICY]
+  SRC-046:
+    heading_index: 46
+    traceability_row: SRC-046
+    heading: "Làm rõ khoảng cách giữa mục tiêu và hiện thực"
+    source_path: "Six-Step Coaching Process > 3 — Reality > Làm rõ khoảng cách giữa mục tiêu và hiện thực"
+    architecture: ["Six-Step Engine", "Companion Policies"]
+    family: HC-PROCESS-REALITY
+    phases: [1, 2]
+    production: [P-STATE, P-POLICY]
+    verification: [T-STATE, T-POLICY]
+  SRC-047:
+    heading_index: 47
+    traceability_row: SRC-047
+    heading: "Khơi gợi nhận thức sâu sắc"
+    source_path: "Six-Step Coaching Process > 3 — Reality > Khơi gợi nhận thức sâu sắc"
+    architecture: ["Six-Step Engine", "Companion Policies"]
+    family: HC-PROCESS-REALITY
+    phases: [1, 2]
+    production: [P-STATE, P-POLICY]
+    verification: [T-STATE, T-POLICY]
+  SRC-048:
+    heading_index: 48
+    traceability_row: SRC-048
+    heading: "4 — Options"
+    source_path: "Six-Step Coaching Process > 4 — Options"
+    architecture: ["Options Novelty and Stuck Recovery"]
+    family: HC-OPTIONS
+    phases: [1, 2]
+    production: [P-OPTIONS, P-STATE]
+    verification: [T-OPTIONS, T-STATE]
+  SRC-049:
+    heading_index: 49
+    traceability_row: SRC-049
+    heading: "Think Outside the Box"
+    source_path: "Six-Step Coaching Process > 4 — Options > Think Outside the Box"
+    architecture: ["Options Novelty and Stuck Recovery"]
+    family: HC-OPTIONS
+    phases: [1, 2]
+    production: [P-OPTIONS, P-POLICY]
+    verification: [T-OPTIONS]
+  SRC-050:
+    heading_index: 50
+    traceability_row: SRC-050
+    heading: "Dấu hiệu chạm ngưỡng trong Options"
+    source_path: "Six-Step Coaching Process > 4 — Options > Dấu hiệu chạm ngưỡng trong Options"
+    architecture: ["Options Novelty and Stuck Recovery"]
+    family: HC-OPTIONS
+    phases: [1, 2]
+    production: [P-OPTIONS]
+    verification: [T-OPTIONS]
+  SRC-051:
+    heading_index: 51
+    traceability_row: SRC-051
+    heading: "Tiêu chí thành công của Options"
+    source_path: "Six-Step Coaching Process > 4 — Options > Tiêu chí thành công của Options"
+    architecture: ["Options Novelty and Stuck Recovery"]
+    family: HC-OPTIONS
+    phases: [1, 2]
+    production: [P-OPTIONS, P-STATE]
+    verification: [T-OPTIONS, T-STATE]
+  SRC-052:
+    heading_index: 52
+    traceability_row: SRC-052
+    heading: "Khi Coachee chưa có giải pháp"
+    source_path: "Six-Step Coaching Process > 4 — Options > Khi Coachee chưa có giải pháp"
+    architecture: ["Options Novelty and Stuck Recovery"]
+    family: HC-OPTIONS
+    phases: [1, 2]
+    production: [P-OPTIONS, P-POLICY, P-STATE]
+    verification: [T-OPTIONS, T-POLICY]
+  SRC-053:
+    heading_index: 53
+    traceability_row: SRC-053
+    heading: "Cách chia nhỏ vấn đề"
+    source_path: "Six-Step Coaching Process > 4 — Options > Cách chia nhỏ vấn đề"
+    architecture: ["Options Novelty and Stuck Recovery"]
+    family: HC-OPTIONS
+    phases: [1, 2]
+    production: [P-OPTIONS, P-POLICY]
+    verification: [T-OPTIONS]
+  SRC-054:
+    heading_index: 54
+    traceability_row: SRC-054
+    heading: "5 — Will"
+    source_path: "Six-Step Coaching Process > 5 — Will"
+    architecture: ["Six-Step Engine", "Confirmation"]
+    family: HC-PROCESS-WILL
+    phases: [1, 2, 3]
+    production: [P-STATE, P-RECORDS, P-POLICY]
+    verification: [T-STATE, T-RECORDS]
+  SRC-055:
+    heading_index: 55
+    traceability_row: SRC-055
+    heading: "Way Forward — Cam kết hành động"
+    source_path: "Six-Step Coaching Process > 5 — Will > Way Forward — Cam kết hành động"
+    architecture: ["Six-Step Engine", "Confirmation"]
+    family: HC-PROCESS-WILL
+    phases: [1, 2, 3]
+    production: [P-STATE, P-RECORDS, P-POLICY]
+    verification: [T-STATE, T-RECORDS]
+  SRC-056:
+    heading_index: 56
+    traceability_row: SRC-056
+    heading: "6 — Review"
+    source_path: "Six-Step Coaching Process > 6 — Review"
+    architecture: ["Six-Step Engine", "Confirmation"]
+    family: HC-PROCESS-REVIEW
+    phases: [1, 2, 3, 5]
+    production: [P-STATE, P-RECORDS]
+    verification: [T-STATE, T-RECORDS]
+  SRC-057:
+    heading_index: 57
+    traceability_row: SRC-057
+    heading: "Tổng kết sau phiên"
+    source_path: "Six-Step Coaching Process > 6 — Review > Tổng kết sau phiên"
+    architecture: ["Six-Step Engine", "Confirmation"]
+    family: HC-PROCESS-REVIEW
+    phases: [1, 2, 3, 5]
+    production: [P-STATE, P-RECORDS]
+    verification: [T-STATE, T-RECORDS]
+  SRC-058:
+    heading_index: 58
+    traceability_row: SRC-058
+    heading: "Theo dõi sau phiên"
+    source_path: "Six-Step Coaching Process > 6 — Review > Theo dõi sau phiên"
+    architecture: ["Check-in and Notifications"]
+    family: HC-CHECKIN
+    phases: [1, 3, 6]
+    production: [P-CHECKIN, P-RECORDS]
+    verification: [T-CHECKIN]
+  SRC-059:
+    heading_index: 59
+    traceability_row: SRC-059
+    heading: "Kết thúc phiên"
+    source_path: "Six-Step Coaching Process > 6 — Review > Kết thúc phiên"
+    architecture: ["Six-Step Engine", "Check-in"]
+    family: HC-PROCESS-REVIEW
+    phases: [1, 2, 6]
+    production: [P-STATE, P-CHECKIN]
+    verification: [T-STATE, T-CHECKIN]
+  SRC-060:
+    heading_index: 60
+    traceability_row: SRC-060
+    heading: "Quy tắc câu hỏi chốt"
+    source_path: "Six-Step Coaching Process > Quy tắc câu hỏi chốt"
+    architecture: ["Six-Step Engine and State Machine"]
+    family: HC-PROCESS
+    phases: [1, 2, 3]
+    production: [P-STATE, P-RECORDS]
+    verification: [T-STATE, T-RECORDS]
+  SRC-061:
+    heading_index: 61
+    traceability_row: SRC-061
+    heading: "Coaching Session State Machine"
+    source_path: "Coaching Session State Machine"
+    architecture: ["Six-Step Engine and State Machine"]
+    family: HC-PROCESS
+    phases: [1, 2, 3]
+    production: [P-STATE, P-DATA]
+    verification: [T-STATE, T-DATA]
+  SRC-062:
+    heading_index: 62
+    traceability_row: SRC-062
+    heading: "UX Flows"
+    source_path: "UX Flows"
+    architecture: ["Web UX"]
+    family: HC-UX
+    phases: [1, 5]
+    production: [P-UX]
+    verification: [T-UX]
+  SRC-063:
+    heading_index: 63
+    traceability_row: SRC-063
+    heading: "Onboarding"
+    source_path: "UX Flows > Onboarding"
+    architecture: ["Web UX"]
+    family: HC-UX
+    phases: [3, 5]
+    production: [P-UX, P-RECORDS]
+    verification: [T-UX, T-RECORDS]
+  SRC-064:
+    heading_index: 64
+    traceability_row: SRC-064
+    heading: "Home"
+    source_path: "UX Flows > Home"
+    architecture: ["Web UX"]
+    family: HC-UX
+    phases: [5]
+    production: [P-UX]
+    verification: [T-UX]
+  SRC-065:
+    heading_index: 65
+    traceability_row: SRC-065
+    heading: "Coaching Session"
+    source_path: "UX Flows > Coaching Session"
+    architecture: ["Web UX", "Six-Step Engine"]
+    family: HC-UX
+    phases: [2, 4, 5]
+    production: [P-UX, P-STATE, P-RECORDS]
+    verification: [T-UX, T-STATE, T-RECORDS]
+  SRC-066:
+    heading_index: 66
+    traceability_row: SRC-066
+    heading: "Scheduled Check-in"
+    source_path: "UX Flows > Scheduled Check-in"
+    architecture: ["Check-in and Notifications"]
+    family: HC-CHECKIN
+    phases: [6]
+    production: [P-CHECKIN]
+    verification: [T-CHECKIN]
+  SRC-067:
+    heading_index: 67
+    traceability_row: SRC-067
+    heading: "Voice"
+    source_path: "UX Flows > Voice"
+    architecture: ["Voice"]
+    family: HC-VOICE
+    phases: [1, 7]
+    production: [P-GOV, P-PRODUCT]
+    verification: [T-GOV]
+  SRC-068:
+    heading_index: 68
+    traceability_row: SRC-068
+    heading: "Privacy Center"
+    source_path: "UX Flows > Privacy Center"
+    architecture: ["Privacy, Security and Egress"]
+    family: HC-PRIVACY
+    phases: [3, 5]
+    production: [P-PRIVACY, P-UX]
+    verification: [T-PRIVACY, T-UX]
+  SRC-069:
+    heading_index: 69
+    traceability_row: SRC-069
+    heading: "Information Architecture"
+    source_path: "Information Architecture"
+    architecture: ["Web UX"]
+    family: HC-UX
+    phases: [5]
+    production: [P-UX]
+    verification: [T-UX]
+  SRC-070:
+    heading_index: 70
+    traceability_row: SRC-070
+    heading: "Technical Architecture"
+    source_path: "Technical Architecture"
+    architecture: ["System Context", "Planned Repository Layout"]
+    family: HC-PRODUCT
+    phases: [1, 3, 4, 5, 6]
+    production: [P-PRODUCT, P-RUNTIME, P-DATA, P-CHECKIN]
+    verification: [T-GOV, T-RUNTIME]
+  SRC-071:
+    heading_index: 71
+    traceability_row: SRC-071
+    heading: "Standalone web product, shared engine"
+    source_path: "Technical Architecture > Standalone web product, shared engine"
+    architecture: ["Existing Hermes Integration Boundary"]
+    family: HC-PRODUCT
+    phases: [1, 4]
+    production: [P-RUNTIME, P-PRODUCT]
+    verification: [T-RUNTIME, T-GOV]
+  SRC-072:
+    heading_index: 72
+    traceability_row: SRC-072
+    heading: "Coach Application Layer"
+    source_path: "Technical Architecture > Coach Application Layer"
+    architecture: ["Application Services and Confirmation"]
+    family: HC-PRODUCT
+    phases: [3, 4]
+    production: [P-API]
+    verification: [T-API]
+  SRC-073:
+    heading_index: 73
+    traceability_row: SRC-073
+    heading: "Prompt and Cache Strategy"
+    source_path: "Technical Architecture > Prompt and Cache Strategy"
+    architecture: ["Prompt, Cache and Structured Output"]
+    family: HC-COMPANION
+    phases: [1, 2, 4]
+    production: [P-PROMPT, P-RUNTIME]
+    verification: [T-PROMPT, T-RUNTIME]
+  SRC-074:
+    heading_index: 74
+    traceability_row: SRC-074
+    heading: "Structured Model Output"
+    source_path: "Technical Architecture > Structured Model Output"
+    architecture: ["Prompt, Cache and Structured Output"]
+    family: HC-COMPANION
+    phases: [1, 2, 3, 4]
+    production: [P-PROMPT, P-RECORDS]
+    verification: [T-PROMPT, T-RECORDS]
+  SRC-075:
+    heading_index: 75
+    traceability_row: SRC-075
+    heading: "Question-only Validator"
+    source_path: "Technical Architecture > Question-only Validator"
+    architecture: ["Prompt, Cache and Structured Output"]
+    family: HC-COMPANION
+    phases: [1, 2, 4]
+    production: [P-PROMPT]
+    verification: [T-PROMPT]
+  SRC-076:
+    heading_index: 76
+    traceability_row: SRC-076
+    heading: "Data Model"
+    source_path: "Data Model"
+    architecture: ["Domain Model"]
+    family: HC-DATA
+    phases: [1, 3]
+    production: [P-DATA]
+    verification: [T-DATA]
+  SRC-077:
+    heading_index: 77
+    traceability_row: SRC-077
+    heading: "`coachee_profile`"
+    source_path: "Data Model > `coachee_profile`"
+    architecture: ["Domain Model"]
+    family: HC-DATA-PROFILE
+    phases: [3]
+    production: [P-DATA]
+    verification: [T-DATA]
+  SRC-078:
+    heading_index: 78
+    traceability_row: SRC-078
+    heading: "`career_snapshot`"
+    source_path: "Data Model > `career_snapshot`"
+    architecture: ["Domain Model"]
+    family: HC-DATA-SNAPSHOT
+    phases: [3]
+    production: [P-DATA]
+    verification: [T-DATA]
+  SRC-079:
+    heading_index: 79
+    traceability_row: SRC-079
+    heading: "`goal`"
+    source_path: "Data Model > `goal`"
+    architecture: ["Domain Model", "Goal Validation"]
+    family: HC-DATA-GOAL
+    phases: [1, 2, 3]
+    production: [P-DATA, P-GOAL]
+    verification: [T-DATA, T-GOAL]
+  SRC-080:
+    heading_index: 80
+    traceability_row: SRC-080
+    heading: "`commitment`"
+    source_path: "Data Model > `commitment`"
+    architecture: ["Domain Model", "Confirmation"]
+    family: HC-DATA-COMMITMENT
+    phases: [2, 3]
+    production: [P-DATA, P-RECORDS]
+    verification: [T-DATA, T-RECORDS]
+  SRC-081:
+    heading_index: 81
+    traceability_row: SRC-081
+    heading: "`evidence`"
+    source_path: "Data Model > `evidence`"
+    architecture: ["Domain Model"]
+    family: HC-DATA-EVIDENCE
+    phases: [3]
+    production: [P-DATA]
+    verification: [T-DATA]
+  SRC-082:
+    heading_index: 82
+    traceability_row: SRC-082
+    heading: "`check_in`"
+    source_path: "Data Model > `check_in`"
+    architecture: ["Domain Model", "Check-in"]
+    family: HC-DATA-CHECKIN
+    phases: [3, 6]
+    production: [P-DATA, P-CHECKIN]
+    verification: [T-DATA, T-CHECKIN]
+  SRC-083:
+    heading_index: 83
+    traceability_row: SRC-083
+    heading: "`coaching_session`"
+    source_path: "Data Model > `coaching_session`"
+    architecture: ["Domain Model", "Six-Step Engine"]
+    family: HC-DATA-SESSION
+    phases: [2, 3]
+    production: [P-DATA, P-STATE]
+    verification: [T-DATA, T-STATE]
+  SRC-084:
+    heading_index: 84
+    traceability_row: SRC-084
+    heading: "`insight`"
+    source_path: "Data Model > `insight`"
+    architecture: ["Domain Model", "Confirmation"]
+    family: HC-DATA-INSIGHT
+    phases: [2, 3]
+    production: [P-DATA, P-RECORDS]
+    verification: [T-DATA, T-RECORDS]
+  SRC-085:
+    heading_index: 85
+    traceability_row: SRC-085
+    heading: "`memory_item`"
+    source_path: "Data Model > `memory_item`"
+    architecture: ["Domain Model", "Privacy"]
+    family: HC-DATA-MEMORY
+    phases: [2, 3]
+    production: [P-DATA, P-PRIVACY]
+    verification: [T-DATA, T-PRIVACY]
+  SRC-086:
+    heading_index: 86
+    traceability_row: SRC-086
+    heading: "Memory Policy"
+    source_path: "Memory Policy"
+    architecture: ["Domain Model", "Privacy"]
+    family: HC-MEMORY
+    phases: [1, 3, 4, 7]
+    production: [P-DATA, P-PRIVACY, P-RUNTIME]
+    verification: [T-DATA, T-PRIVACY, T-RUNTIME]
+  SRC-087:
+    heading_index: 87
+    traceability_row: SRC-087
+    heading: "Safety"
+    source_path: "Safety"
+    architecture: ["Safety Architecture"]
+    family: HC-SAFETY
+    phases: [1, 2, 7]
+    production: [P-SAFETY]
+    verification: [T-SAFETY]
+  SRC-088:
+    heading_index: 88
+    traceability_row: SRC-088
+    heading: "Role Boundaries"
+    source_path: "Safety > Role Boundaries"
+    architecture: ["Safety Architecture"]
+    family: HC-SAFETY
+    phases: [1, 2, 7]
+    production: [P-SAFETY, P-POLICY]
+    verification: [T-SAFETY, T-POLICY]
+  SRC-089:
+    heading_index: 89
+    traceability_row: SRC-089
+    heading: "Safety States"
+    source_path: "Safety > Safety States"
+    architecture: ["Safety Architecture"]
+    family: HC-SAFETY
+    phases: [1, 2, 7]
+    production: [P-SAFETY, P-STATE]
+    verification: [T-SAFETY, T-STATE]
+  SRC-090:
+    heading_index: 90
+    traceability_row: SRC-090
+    heading: "Prohibited Behaviors"
+    source_path: "Safety > Prohibited Behaviors"
+    architecture: ["Safety Architecture"]
+    family: HC-SAFETY
+    phases: [1, 2, 7]
+    production: [P-SAFETY, P-POLICY]
+    verification: [T-SAFETY, T-POLICY]
+  SRC-091:
+    heading_index: 91
+    traceability_row: SRC-091
+    heading: "Privacy Controls"
+    source_path: "Safety > Privacy Controls"
+    architecture: ["Privacy, Security and Egress"]
+    family: HC-PRIVACY
+    phases: [1, 3, 5, 7]
+    production: [P-PRIVACY, P-DATA]
+    verification: [T-PRIVACY, T-DATA]
+  SRC-092:
+    heading_index: 92
+    traceability_row: SRC-092
+    heading: "Non-functional Requirements"
+    source_path: "Non-functional Requirements"
+    architecture: ["All architecture sections"]
+    family: HC-NFR
+    phases: [1, 2, 3, 4, 5, 6, 7]
+    production: [P-PRODUCT, P-POLICY, P-STATE, P-GOAL, P-OPTIONS, P-RECORDS, P-DATA, P-API, P-UX, P-CHECKIN, P-PRIVACY, P-SAFETY, P-PROMPT, P-RUNTIME, P-DEPLOY]
+    verification: [T-GOV, T-POLICY, T-STATE, T-GOAL, T-OPTIONS, T-RECORDS, T-DATA, T-API, T-UX, T-CHECKIN, T-PRIVACY, T-SAFETY, T-PROMPT, T-RUNTIME, T-DEPLOY]
+  SRC-093:
+    heading_index: 93
+    traceability_row: SRC-093
+    heading: "Evaluation Strategy"
+    source_path: "Evaluation Strategy"
+    architecture: ["Evaluation and Verification"]
+    family: HC-EVAL
+    phases: [1, 2, 3, 7]
+    production: [P-POLICY, P-STATE, P-GOAL, P-OPTIONS, P-SAFETY, P-PROMPT, P-DATA, P-PRIVACY]
+    verification: [T-POLICY, T-STATE, T-GOAL, T-OPTIONS, T-SAFETY, T-PROMPT, T-DATA, T-PRIVACY]
+  SRC-094:
+    heading_index: 94
+    traceability_row: SRC-094
+    heading: "Acceptance Criteria"
+    source_path: "Acceptance Criteria"
+    architecture: ["Evaluation and Verification"]
+    family: HC-AC
+    phases: [1, 2, 3, 4, 5, 6, 7]
+    production: [P-POLICY, P-STATE, P-GOAL, P-OPTIONS, P-RECORDS, P-DATA, P-API, P-UX, P-CHECKIN, P-PRIVACY, P-SAFETY, P-PROMPT, P-RUNTIME, P-PRODUCT]
+    verification: [T-POLICY, T-STATE, T-GOAL, T-OPTIONS, T-RECORDS, T-DATA, T-API, T-UX, T-CHECKIN, T-PRIVACY, T-SAFETY, T-PROMPT, T-RUNTIME, T-GOV]
+  SRC-095:
+    heading_index: 95
+    traceability_row: SRC-095
+    heading: "Success Metrics"
+    source_path: "Success Metrics"
+    architecture: ["Evaluation and Verification"]
+    family: HC-METRICS
+    phases: [1, 3, 5, 6, 7]
+    production: [P-METRICS]
+    verification: [T-METRICS]
+  SRC-096:
+    heading_index: 96
+    traceability_row: SRC-096
+    heading: "Delivery Roadmap"
+    source_path: "Delivery Roadmap"
+    architecture: ["Delivery and Deployment"]
+    family: HC-ROADMAP
+    phases: [1, 2, 3, 4, 5, 6, 7]
+    production: [P-GOV, P-PRODUCT, P-POLICY, P-STATE, P-GOAL, P-OPTIONS, P-RECORDS, P-DATA, P-API, P-UX, P-CHECKIN, P-PRIVACY, P-SAFETY, P-PROMPT, P-RUNTIME, P-DEPLOY]
+    verification: [T-GOV, T-POLICY, T-STATE, T-GOAL, T-OPTIONS, T-RECORDS, T-DATA, T-API, T-UX, T-CHECKIN, T-PRIVACY, T-SAFETY, T-PROMPT, T-RUNTIME, T-DEPLOY]
+  SRC-097:
+    heading_index: 97
+    traceability_row: SRC-097
+    heading: "Phase 0 — Contract and Evaluation"
+    source_path: "Delivery Roadmap > Phase 0 — Contract and Evaluation"
+    architecture: ["Evaluation and Verification", "Delivery"]
+    family: HC-ROADMAP
+    phases: [1]
+    production: [P-GOV, P-POLICY, P-PROMPT]
+    verification: [T-GOV, T-POLICY, T-PROMPT]
+  SRC-098:
+    heading_index: 98
+    traceability_row: SRC-098
+    heading: "Phase 1 — Coaching Engine"
+    source_path: "Delivery Roadmap > Phase 1 — Coaching Engine"
+    architecture: ["Six-Step Engine", "Prompt"]
+    family: HC-ROADMAP
+    phases: [2]
+    production: [P-STATE, P-GOAL, P-OPTIONS, P-POLICY, P-PROMPT]
+    verification: [T-STATE, T-GOAL, T-OPTIONS, T-POLICY, T-PROMPT]
+  SRC-099:
+    heading_index: 99
+    traceability_row: SRC-099
+    heading: "Phase 2 — Local Data Layer"
+    source_path: "Delivery Roadmap > Phase 2 — Local Data Layer"
+    architecture: ["Domain Model", "Privacy"]
+    family: HC-ROADMAP
+    phases: [3]
+    production: [P-DATA, P-PRIVACY, P-RECORDS]
+    verification: [T-DATA, T-PRIVACY, T-RECORDS]
+  SRC-100:
+    heading_index: 100
+    traceability_row: SRC-100
+    heading: "Phase 3 — Web UX"
+    source_path: "Delivery Roadmap > Phase 3 — Web UX"
+    architecture: ["Web UX"]
+    family: HC-ROADMAP
+    phases: [4, 5]
+    production: [P-UX, P-API]
+    verification: [T-UX, T-API]
+  SRC-101:
+    heading_index: 101
+    traceability_row: SRC-101
+    heading: "Phase 4 — Check-in and Notifications"
+    source_path: "Delivery Roadmap > Phase 4 — Check-in and Notifications"
+    architecture: ["Check-in and Notifications"]
+    family: HC-ROADMAP
+    phases: [6]
+    production: [P-CHECKIN]
+    verification: [T-CHECKIN]
+  SRC-102:
+    heading_index: 102
+    traceability_row: SRC-102
+    heading: "Phase 5 — Voice"
+    source_path: "Delivery Roadmap > Phase 5 — Voice"
+    architecture: ["Voice"]
+    family: HC-ROADMAP
+    phases: [1, 7]
+    production: [P-GOV, P-PRODUCT]
+    verification: [T-GOV]
+  SRC-103:
+    heading_index: 103
+    traceability_row: SRC-103
+    heading: "Phase 6 — Hardening"
+    source_path: "Delivery Roadmap > Phase 6 — Hardening"
+    architecture: ["Delivery and Deployment", "all hardening sections"]
+    family: HC-ROADMAP
+    phases: [7]
+    production: [P-DEPLOY, P-PRIVACY, P-SAFETY]
+    verification: [T-DEPLOY, T-PRIVACY, T-SAFETY]
+  SRC-104:
+    heading_index: 104
+    traceability_row: SRC-104
+    heading: "Architecture Decision"
+    source_path: "Architecture Decision"
+    architecture: ["Overview", "Integration Boundary"]
+    family: HC-ADR
+    phases: [1, 4]
+    production: [P-GOV, P-PRODUCT, P-RUNTIME]
+    verification: [T-GOV, T-RUNTIME]
+  SRC-105:
+    heading_index: 105
+    traceability_row: SRC-105
+    heading: "Recommended"
+    source_path: "Architecture Decision > Recommended"
+    architecture: ["Overview", "Integration Boundary"]
+    family: HC-ADR
+    phases: [1, 4]
+    production: [P-PRODUCT, P-RUNTIME]
+    verification: [T-GOV, T-RUNTIME]
+  SRC-106:
+    heading_index: 106
+    traceability_row: SRC-106
+    heading: "Alternatives Considered"
+    source_path: "Architecture Decision > Alternatives Considered"
+    architecture: ["Existing Hermes Integration Boundary"]
+    family: HC-ADR
+    phases: [1, 4]
+    production: [P-GOV]
+    verification: [T-GOV]
+  SRC-107:
+    heading_index: 107
+    traceability_row: SRC-107
+    heading: "Assumptions to Validate"
+    source_path: "Assumptions to Validate"
+    architecture: ["Evaluation", "Architecture Blockers"]
+    family: HC-ASSUMPTION
+    phases: [1, 2, 3, 4, 5, 7]
+    production: [P-STATE, P-POLICY, P-PROMPT, P-UX, P-RECORDS]
+    verification: [T-STATE, T-POLICY, T-PROMPT, T-UX, T-RECORDS]
+  SRC-108:
+    heading_index: 108
+    traceability_row: SRC-108
+    heading: "Decision Log"
+    source_path: "Decision Log"
+    architecture: ["Requirement Ownership", "Architecture Blockers"]
+    family: HC-DECISION
+    phases: [1, 2, 3, 4, 5, 6, 7]
+    production: [P-GOV, P-PRODUCT, P-RUNTIME, P-STATE, P-GOAL, P-POLICY, P-CHECKIN, P-PRIVACY, P-SAFETY]
+    verification: [T-GOV, T-RUNTIME, T-STATE, T-GOAL, T-POLICY, T-CHECKIN, T-PRIVACY, T-SAFETY]
+  SRC-109:
+    heading_index: 109
+    traceability_row: SRC-109
+    heading: "References"
+    source_path: "References"
+    architecture: ["References", "Integration Boundary"]
+    family: HC-REFERENCE
+    phases: [1, 7]
+    production: [P-GOV, P-RUNTIME]
+    verification: [T-GOV]
+  SRC-110:
+    heading_index: 110
+    traceability_row: SRC-110
+    heading: "Next Steps"
+    source_path: "Next Steps"
+    architecture: ["Delivery and Deployment"]
+    family: HC-GOV
+    phases: [1]
+    production: [P-GOV]
+    verification: [T-GOV]
+  SRC-111:
+    heading_index: 111
+    traceability_row: SRC-111
+    heading: "Unresolved Questions"
+    source_path: "Unresolved Questions"
+    architecture: ["Architecture Decision and Blocker Status"]
+    family: HC-BLOCKER
+    phases: [1, 7]
+    production: [P-GOV]
+    verification: [T-GOV]
+acceptance_criteria:
+  AC-01:
+    traceability_row: AC-01
+    phases: [1, 2, 3, 5, 6, 7]
+    production: [P-UX, P-RECORDS]
+    verification: [T-UX, T-RECORDS]
+  AC-02:
+    traceability_row: AC-02
+    phases: [1, 2, 3, 5, 7]
+    production: [P-STATE, P-UX]
+    verification: [T-STATE, T-UX]
+  AC-03:
+    traceability_row: AC-03
+    phases: [1, 4, 5, 7]
+    production: [P-PRODUCT, P-GOV, P-DEPLOY]
+    verification: [T-GOV, T-DEPLOY]
+  AC-04:
+    traceability_row: AC-04
+    phases: [1, 2, 3, 7]
+    production: [P-STATE, P-POLICY]
+    verification: [T-STATE, T-POLICY]
+  AC-05:
+    traceability_row: AC-05
+    phases: [1, 2, 3, 7]
+    production: [P-STATE]
+    verification: [T-STATE]
+  AC-06:
+    traceability_row: AC-06
+    phases: [1, 2, 3, 7]
+    production: [P-STATE]
+    verification: [T-STATE]
+  AC-07:
+    traceability_row: AC-07
+    phases: [1, 2, 3, 7]
+    production: [P-STATE]
+    verification: [T-STATE]
+  AC-08:
+    traceability_row: AC-08
+    phases: [1, 2, 3, 5, 7]
+    production: [P-STATE, P-DATA, P-UX]
+    verification: [T-STATE, T-DATA, T-UX]
+  AC-09:
+    traceability_row: AC-09
+    phases: [1, 2, 3, 7]
+    production: [P-POLICY, P-STATE]
+    verification: [T-POLICY, T-STATE]
+  AC-10:
+    traceability_row: AC-10
+    phases: [1, 2, 3, 7]
+    production: [P-STATE]
+    verification: [T-STATE]
+  AC-11:
+    traceability_row: AC-11
+    phases: [1, 2, 3, 7]
+    production: [P-OPTIONS, P-STATE]
+    verification: [T-OPTIONS, T-STATE]
+  AC-12:
+    traceability_row: AC-12
+    phases: [1, 2, 7]
+    production: [P-OPTIONS]
+    verification: [T-OPTIONS]
+  AC-13:
+    traceability_row: AC-13
+    phases: [1, 2, 7]
+    production: [P-OPTIONS, P-POLICY]
+    verification: [T-OPTIONS, T-POLICY]
+  AC-14:
+    traceability_row: AC-14
+    phases: [1, 2, 3, 7]
+    production: [P-OPTIONS, P-STATE]
+    verification: [T-OPTIONS, T-STATE]
+  AC-15:
+    traceability_row: AC-15
+    phases: [1, 2, 7]
+    production: [P-POLICY, P-OPTIONS]
+    verification: [T-POLICY, T-OPTIONS]
+  AC-16:
+    traceability_row: AC-16
+    phases: [1, 2, 7]
+    production: [P-POLICY, P-OPTIONS]
+    verification: [T-POLICY, T-OPTIONS]
+  AC-17:
+    traceability_row: AC-17
+    phases: [1, 2, 3, 5, 6, 7]
+    production: [P-OPTIONS, P-RECORDS]
+    verification: [T-OPTIONS, T-RECORDS]
+  AC-18:
+    traceability_row: AC-18
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-19:
+    traceability_row: AC-19
+    phases: [1, 2, 3, 7]
+    production: [P-STATE]
+    verification: [T-STATE]
+  AC-20:
+    traceability_row: AC-20
+    phases: [1, 2, 3, 7]
+    production: [P-GOAL, P-STATE]
+    verification: [T-GOAL, T-STATE]
+  AC-21:
+    traceability_row: AC-21
+    phases: [1, 2, 3, 7]
+    production: [P-GOAL, P-STATE]
+    verification: [T-GOAL, T-STATE]
+  AC-22:
+    traceability_row: AC-22
+    phases: [1, 2, 3, 7]
+    production: [P-GOAL, P-STATE]
+    verification: [T-GOAL, T-STATE]
+  AC-23:
+    traceability_row: AC-23
+    phases: [1, 2, 3, 7]
+    production: [P-POLICY, P-STATE]
+    verification: [T-POLICY, T-STATE]
+  AC-24:
+    traceability_row: AC-24
+    phases: [1, 2, 3, 7]
+    production: [P-POLICY, P-STATE]
+    verification: [T-POLICY, T-STATE]
+  AC-25:
+    traceability_row: AC-25
+    phases: [1, 2, 3, 7]
+    production: [P-POLICY, P-STATE]
+    verification: [T-POLICY, T-STATE]
+  AC-26:
+    traceability_row: AC-26
+    phases: [1, 2, 4, 7]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY, T-PROMPT]
+  AC-27:
+    traceability_row: AC-27
+    phases: [1, 2, 4, 7]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY, T-PROMPT]
+  AC-28:
+    traceability_row: AC-28
+    phases: [1, 2, 5, 7]
+    production: [P-POLICY, P-SAFETY]
+    verification: [T-POLICY, T-SAFETY]
+  AC-29:
+    traceability_row: AC-29
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-30:
+    traceability_row: AC-30
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-31:
+    traceability_row: AC-31
+    phases: [1, 2, 7]
+    production: [P-POLICY, P-GOAL]
+    verification: [T-POLICY, T-GOAL]
+  AC-32:
+    traceability_row: AC-32
+    phases: [1, 2, 3, 5, 6, 7]
+    production: [P-GOAL, P-RECORDS]
+    verification: [T-GOAL, T-RECORDS]
+  AC-33:
+    traceability_row: AC-33
+    phases: [1, 2, 4, 5, 7]
+    production: [P-POLICY, P-PROMPT, P-SAFETY, P-UX]
+    verification: [T-POLICY, T-PROMPT, T-SAFETY]
+  AC-34:
+    traceability_row: AC-34
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-35:
+    traceability_row: AC-35
+    phases: [1, 2, 7]
+    production: [P-POLICY, P-OPTIONS]
+    verification: [T-POLICY, T-OPTIONS]
+  AC-36:
+    traceability_row: AC-36
+    phases: [1, 2, 4, 7]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY, T-PROMPT]
+  AC-37:
+    traceability_row: AC-37
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-38:
+    traceability_row: AC-38
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-39:
+    traceability_row: AC-39
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-40:
+    traceability_row: AC-40
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-41:
+    traceability_row: AC-41
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-42:
+    traceability_row: AC-42
+    phases: [1, 2, 5, 7]
+    production: [P-POLICY, P-UX]
+    verification: [T-POLICY, T-UX]
+  AC-43:
+    traceability_row: AC-43
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-44:
+    traceability_row: AC-44
+    phases: [1, 2, 4, 7]
+    production: [P-POLICY, P-PROMPT]
+    verification: [T-POLICY, T-PROMPT]
+  AC-45:
+    traceability_row: AC-45
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-46:
+    traceability_row: AC-46
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-47:
+    traceability_row: AC-47
+    phases: [1, 2, 7]
+    production: [P-POLICY]
+    verification: [T-POLICY]
+  AC-48:
+    traceability_row: AC-48
+    phases: [1, 2, 4, 7]
+    production: [P-PROMPT]
+    verification: [T-PROMPT]
+  AC-49:
+    traceability_row: AC-49
+    phases: [1, 2, 3, 5, 6, 7]
+    production: [P-RECORDS, P-DATA, P-UX]
+    verification: [T-RECORDS, T-DATA, T-UX]
+  AC-50:
+    traceability_row: AC-50
+    phases: [1, 2, 3, 5, 6, 7]
+    production: [P-CHECKIN, P-RECORDS]
+    verification: [T-CHECKIN, T-RECORDS]
+  AC-51:
+    traceability_row: AC-51
+    phases: [1, 2, 3, 5, 6, 7]
+    production: [P-STATE, P-RECORDS, P-CHECKIN]
+    verification: [T-STATE, T-RECORDS, T-CHECKIN]
+  AC-52:
+    traceability_row: AC-52
+    phases: [1, 3, 6, 7]
+    production: [P-CHECKIN]
+    verification: [T-CHECKIN]
+  AC-53:
+    traceability_row: AC-53
+    phases: [1, 3, 7]
+    production: [P-DATA]
+    verification: [T-DATA]
+  AC-54:
+    traceability_row: AC-54
+    phases: [1, 3, 4, 5, 7]
+    production: [P-PRIVACY, P-UX, P-DEPLOY]
+    verification: [T-PRIVACY, T-UX, T-DEPLOY]
+  AC-55:
+    traceability_row: AC-55
+    phases: [1, 3, 5, 7]
+    production: [P-PRIVACY]
+    verification: [T-PRIVACY]
+  AC-56:
+    traceability_row: AC-56
+    phases: [1, 2, 4, 7]
+    production: [P-PROMPT, P-RUNTIME]
+    verification: [T-PROMPT, T-RUNTIME]
+  AC-57:
+    traceability_row: AC-57
+    phases: [1, 2, 3, 5, 7]
+    production: [P-SAFETY, P-STATE]
+    verification: [T-SAFETY, T-STATE]
+  AC-58:
+    traceability_row: AC-58
+    phases: [1, 3, 5, 7]
+    production: [P-UX, P-DATA]
+    verification: [T-UX, T-DATA]
+production_bundles:
+  P-GOV:
+    traceability_section: Production File Bundles
+    phases: [1, 7]
+  P-PRODUCT:
+    traceability_section: Production File Bundles
+    phases: [1, 4, 5, 7]
+  P-POLICY:
+    traceability_section: Production File Bundles
+    phases: [1, 2, 7]
+  P-STATE:
+    traceability_section: Production File Bundles
+    phases: [1, 2, 3, 7]
+  P-GOAL:
+    traceability_section: Production File Bundles
+    phases: [1, 2, 7]
+  P-OPTIONS:
+    traceability_section: Production File Bundles
+    phases: [1, 2, 7]
+  P-RECORDS:
+    traceability_section: Production File Bundles
+    phases: [1, 2, 3, 5, 6, 7]
+  P-DATA:
+    traceability_section: Production File Bundles
+    phases: [1, 3, 7]
+  P-API:
+    traceability_section: Production File Bundles
+    phases: [1, 4, 7]
+  P-UX:
+    traceability_section: Production File Bundles
+    phases: [1, 5, 7]
+  P-CHECKIN:
+    traceability_section: Production File Bundles
+    phases: [1, 3, 6, 7]
+  P-PRIVACY:
+    traceability_section: Production File Bundles
+    phases: [1, 3, 5, 7]
+  P-SAFETY:
+    traceability_section: Production File Bundles
+    phases: [1, 2, 5, 7]
+  P-PROMPT:
+    traceability_section: Production File Bundles
+    phases: [1, 2, 4, 7]
+  P-RUNTIME:
+    traceability_section: Production File Bundles
+    phases: [1, 4, 7]
+  P-METRICS:
+    traceability_section: Production File Bundles
+    phases: [1, 3, 5, 7]
+  P-DEPLOY:
+    traceability_section: Production File Bundles
+    phases: [1, 4, 7]
+verification_bundles:
+  T-GOV:
+    traceability_section: Verification File Bundles
+    phases: [1, 7]
+  T-POLICY:
+    traceability_section: Verification File Bundles
+    phases: [1, 2, 7]
+  T-STATE:
+    traceability_section: Verification File Bundles
+    phases: [1, 2, 3, 7]
+  T-GOAL:
+    traceability_section: Verification File Bundles
+    phases: [1, 2, 7]
+  T-OPTIONS:
+    traceability_section: Verification File Bundles
+    phases: [1, 2, 7]
+  T-RECORDS:
+    traceability_section: Verification File Bundles
+    phases: [1, 2, 3, 5, 7]
+  T-DATA:
+    traceability_section: Verification File Bundles
+    phases: [1, 3, 7]
+  T-API:
+    traceability_section: Verification File Bundles
+    phases: [1, 4, 7]
+  T-UX:
+    traceability_section: Verification File Bundles
+    phases: [1, 5, 7]
+  T-CHECKIN:
+    traceability_section: Verification File Bundles
+    phases: [1, 3, 6, 7]
+  T-PRIVACY:
+    traceability_section: Verification File Bundles
+    phases: [1, 3, 5, 7]
+  T-SAFETY:
+    traceability_section: Verification File Bundles
+    phases: [1, 2, 5, 7]
+  T-PROMPT:
+    traceability_section: Verification File Bundles
+    phases: [1, 2, 4, 7]
+  T-RUNTIME:
+    traceability_section: Verification File Bundles
+    phases: [1, 4, 7]
+  T-METRICS:
+    traceability_section: Verification File Bundles
+    phases: [1, 3, 5, 7]
+  T-DEPLOY:
+    traceability_section: Verification File Bundles
+    phases: [1, 4, 7]

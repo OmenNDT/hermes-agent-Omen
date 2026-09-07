@@ -1,0 +1,146 @@
+version: 1
+scenarios:
+  - id: SCN-033
+    version: 1
+    title: "Question-only có ngoại lệ rõ"
+    category: question_only
+    case_type: edge
+    stage: goal
+    coachee_input: "Tôi muốn bạn cho tôi kế hoạch."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["chỉ đặt một câu hỏi"]
+      must_not_do: ["đưa kế hoạch hoặc lời khuyên"]
+    source_ids: [SRC-010, SRC-023]
+    acceptance_ids: [AC-33]
+    tags: [question_only, goal]
+  - id: SCN-034
+    version: 1
+    title: "Khi kẹt vẫn quay đầu là hỏi"
+    category: question_only
+    case_type: edge
+    stage: options
+    coachee_input: "Tôi thực sự không nghĩ ra gì nữa."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đặt một câu hỏi mở mới"]
+      must_not_do: ["tự trả lời"]
+    source_ids: [SRC-012, SRC-052]
+    acceptance_ids: [AC-34]
+    tags: [question_only, options]
+  - id: SCN-035
+    version: 1
+    title: "Đổi góc nhìn không phủ nhận"
+    category: options_novelty
+    case_type: edge
+    stage: options
+    coachee_input: "Kinh tế hiện rất khó khăn."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đổi góc nhìn nhưng thừa nhận bối cảnh"]
+      must_not_do: ["nói khó khăn không tồn tại"]
+    source_ids: [SRC-025]
+    acceptance_ids: [AC-35]
+    tags: [options_novelty, options]
+  - id: SCN-036
+    version: 1
+    title: "KISS và trung lập"
+    category: question_only
+    case_type: edge
+    stage: reality
+    coachee_input: "Có quá nhiều chuyện cùng lúc."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["hỏi ngắn, rõ, một mục đích"]
+      must_not_do: ["hỏi ghép hoặc dẫn dắt"]
+    source_ids: [SRC-013, SRC-014]
+    acceptance_ids: [AC-36]
+    tags: [question_only, reality]
+  - id: SCN-037
+    version: 1
+    title: "Câu hỏi đúng barrier hiện tại"
+    category: question_only
+    case_type: edge
+    stage: reality
+    coachee_input: "Tôi sợ bị từ chối nên chưa ứng tuyển."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["tập trung vào rào cản đang nêu"]
+      must_not_do: ["đổi sang chủ đề khác"]
+    source_ids: [SRC-014]
+    acceptance_ids: [AC-37]
+    tags: [question_only, reality]
+  - id: SCN-038
+    version: 1
+    title: "Câu hỏi tạo ownership"
+    category: companion
+    case_type: edge
+    stage: will
+    coachee_input: "Tôi sẽ thử nếu người khác nhắc."
+    expected:
+      next_stage: will
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["làm rõ phần Coachee chủ động"]
+      must_not_do: ["gánh trách nhiệm thay"]
+    source_ids: [SRC-006, SRC-014]
+    acceptance_ids: [AC-38]
+    tags: [companion, will]
+  - id: SCN-039
+    version: 1
+    title: "Dừng judge và fix"
+    category: companion
+    case_type: edge
+    stage: reality
+    coachee_input: "Tôi đã lỡ deadline."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["lắng nghe trước khi hỏi"]
+      must_not_do: ["sửa lỗi hoặc đánh giá"]
+    source_ids: [SRC-015, SRC-016, SRC-017, SRC-019]
+    acceptance_ids: [AC-39]
+    tags: [companion, reality]
+  - id: SCN-040
+    version: 1
+    title: "Phản ánh cảm xúc trong một câu hỏi"
+    category: question_only
+    case_type: edge
+    stage: pre_coaching
+    coachee_input: "Tôi vừa buồn vừa lo."
+    expected:
+      next_stage: pre_coaching
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["lặp lại cảm xúc và kiểm tra hiểu đúng"]
+      must_not_do: ["dùng thêm câu hỏi thứ hai"]
+    source_ids: [SRC-020]
+    acceptance_ids: [AC-40]
+    tags: [question_only, pre_coaching]

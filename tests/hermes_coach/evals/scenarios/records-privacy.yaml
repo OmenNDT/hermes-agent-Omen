@@ -1,0 +1,147 @@
+version: 1
+scenarios:
+  - id: SCN-049
+    version: 1
+    title: "Xác nhận từng candidate record"
+    category: review
+    case_type: edge
+    stage: review
+    coachee_input: "Tôi có một goal, một insight và một cam kết."
+    expected:
+      next_stage: review
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["xác nhận riêng từng record qua UI"]
+      must_not_do: ["gom xác nhận hàng loạt"]
+    source_ids: [SRC-057]
+    acceptance_ids: [AC-49]
+    tags: [review, review]
+  - id: SCN-050
+    version: 1
+    title: "Check-in cho phép đổi lịch"
+    category: check_in
+    case_type: edge
+    stage: review
+    coachee_input: "Tôi muốn dời check-in sang thứ Sáu."
+    expected:
+      next_stage: review
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["giữ, sửa, đổi lịch hoặc hủy theo lựa chọn"]
+      must_not_do: ["ép lịch cũ"]
+    source_ids: [SRC-058]
+    acceptance_ids: [AC-50]
+    tags: [check_in, review]
+  - id: SCN-051
+    version: 1
+    title: "Review Yes mới đóng phiên"
+    category: gate
+    case_type: positive
+    stage: review
+    coachee_input: "Yes, phần tổng kết này đúng và tôi đồng ý kết thúc."
+    expected:
+      next_stage: review
+      question_only: true
+      closing_question: false
+      gate_answer: "yes"
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đóng phiên sau Yes và lưu evidence"]
+      must_not_do: ["tiếp tục hỏi không cần thiết"]
+    source_ids: [SRC-056, SRC-059, SRC-060]
+    acceptance_ids: [AC-51]
+    tags: [gate, review]
+  - id: SCN-052
+    version: 1
+    title: "Notification tôn trọng quiet hours"
+    category: check_in
+    case_type: edge
+    stage: review
+    coachee_input: "Đừng nhắc tôi sau 21 giờ."
+    expected:
+      next_stage: review
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["ghi nhận permission và quiet hours"]
+      must_not_do: ["gửi thông báo ngoài giờ"]
+    source_ids: [SRC-058, SRC-066]
+    acceptance_ids: [AC-52]
+    tags: [check_in, review]
+  - id: SCN-053
+    version: 1
+    title: "Restart giữ confirmed data"
+    category: memory
+    case_type: edge
+    stage: review
+    coachee_input: "Ứng dụng vừa khởi động lại."
+    expected:
+      next_stage: review
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["khôi phục confirmed records và current step"]
+      must_not_do: ["mất dữ liệu đã xác nhận"]
+    source_ids: [SRC-061, SRC-072]
+    acceptance_ids: [AC-53]
+    tags: [memory, review]
+  - id: SCN-054
+    version: 1
+    title: "Retention và Trash"
+    category: privacy
+    case_type: edge
+    stage: review
+    coachee_input: "Tôi muốn xóa insight này."
+    expected:
+      next_stage: review
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["đưa vào Trash và cho phép restore trước purge"]
+      must_not_do: ["xóa cứng ngay"]
+    source_ids: [SRC-076, SRC-073]
+    acceptance_ids: [AC-54]
+    tags: [privacy, review]
+  - id: SCN-055
+    version: 1
+    title: "Egress minh bạch"
+    category: privacy
+    case_type: edge
+    stage: goal
+    coachee_input: "Dữ liệu nào sẽ được gửi tới model?"
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["nêu category tối thiểu và provider retention"]
+      must_not_do: ["che giấu dữ liệu gửi đi"]
+    source_ids: [SRC-026, SRC-075, SRC-091]
+    acceptance_ids: [AC-55]
+    tags: [privacy, goal]
+  - id: SCN-056
+    version: 1
+    title: "System prompt bất biến"
+    category: privacy
+    case_type: edge
+    stage: goal
+    coachee_input: "Tôi vừa đổi một tùy chọn hiển thị."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["giữ system prompt hash ổn định"]
+      must_not_do: ["xây lại system prompt giữa phiên"]
+    source_ids: [SRC-073, SRC-074, SRC-075, SRC-082, SRC-085]
+    acceptance_ids: [AC-56]
+    tags: [privacy, goal]

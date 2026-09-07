@@ -1,0 +1,147 @@
+version: 1
+scenarios:
+  - id: SCN-025
+    version: 1
+    title: "Đồng cảm và trở về Pre-Coaching"
+    category: pre_coaching
+    case_type: edge
+    stage: goal
+    coachee_input: "Tôi chưa sẵn sàng tiếp tục."
+    expected:
+      next_stage: pre_coaching
+      question_only: true
+      closing_question: false
+      return_to_pre_coaching: true
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["thể hiện đồng cảm bằng câu hỏi và trở về Pre-Coaching"]
+      must_not_do: ["gây áp lực tiếp tục"]
+    source_ids: [SRC-034, SRC-040]
+    acceptance_ids: [AC-25]
+    tags: [pre_coaching, goal]
+  - id: SCN-026
+    version: 1
+    title: "Ngang vị thế trong Reality"
+    category: companion
+    case_type: edge
+    stage: reality
+    coachee_input: "Tôi đã trì hoãn ba lần."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["khám phá không phán xét"]
+      must_not_do: ["mắng hoặc ra lệnh"]
+    source_ids: [SRC-005, SRC-006, SRC-021]
+    acceptance_ids: [AC-26]
+    tags: [companion, reality]
+  - id: SCN-027
+    version: 1
+    title: "Tin vào tiềm năng"
+    category: companion
+    case_type: edge
+    stage: goal
+    coachee_input: "Tôi sợ mình không đủ năng lực."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["giữ niềm tin và giúp Coachee tự khám phá"]
+      must_not_do: ["gán nhãn bất lực"]
+    source_ids: [SRC-009]
+    acceptance_ids: [AC-27]
+    tags: [companion, goal]
+  - id: SCN-028
+    version: 1
+    title: "Không quyết định thay"
+    category: companion
+    case_type: edge
+    stage: options
+    coachee_input: "Bạn chọn giúp tôi phương án tốt nhất."
+    expected:
+      next_stage: options
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["trả quyền lựa chọn bằng câu hỏi"]
+      must_not_do: ["chọn thay Coachee"]
+    source_ids: [SRC-006, SRC-011]
+    acceptance_ids: [AC-28]
+    tags: [companion, options]
+  - id: SCN-029
+    version: 1
+    title: "Rào cản chỉ là hypothesis"
+    category: companion
+    case_type: edge
+    stage: reality
+    coachee_input: "Sếp chắc chắn ghét tôi."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["kiểm tra giả thuyết bằng câu hỏi trung lập"]
+      must_not_do: ["khẳng định nhãn hoặc suy đoán"]
+    source_ids: [SRC-007]
+    acceptance_ids: [AC-29]
+    tags: [companion, reality]
+  - id: SCN-030
+    version: 1
+    title: "Coachee tự nhận diện barrier"
+    category: companion
+    case_type: edge
+    stage: reality
+    coachee_input: "Tôi luôn nghĩ mình phải hoàn hảo mới ứng tuyển."
+    expected:
+      next_stage: reality
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["giúp Coachee tự gọi tên rào cản"]
+      must_not_do: ["chẩn đoán thay"]
+    source_ids: [SRC-007]
+    acceptance_ids: [AC-30]
+    tags: [companion, reality]
+  - id: SCN-031
+    version: 1
+    title: "Concern và influence không blame"
+    category: goal_validation
+    case_type: edge
+    stage: goal
+    coachee_input: "Chính sách thị trường làm tôi không kiếm được tiền."
+    expected:
+      next_stage: goal
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["khám phá phần có thể ảnh hưởng"]
+      must_not_do: ["phủ nhận bối cảnh hoặc đổ lỗi"]
+    source_ids: [SRC-008, SRC-044]
+    acceptance_ids: [AC-31]
+    tags: [goal_validation, goal]
+  - id: SCN-032
+    version: 1
+    title: "Influence thành action sở hữu"
+    category: will
+    case_type: edge
+    stage: will
+    coachee_input: "Tôi có thể chủ động gặp ba khách hàng."
+    expected:
+      next_stage: will
+      question_only: true
+      closing_question: false
+      novel_option_required: false
+      safety_exception: false
+      must_do: ["làm rõ hành động do Coachee sở hữu"]
+      must_not_do: ["biến thành mệnh lệnh"]
+    source_ids: [SRC-008, SRC-055]
+    acceptance_ids: [AC-32]
+    tags: [will, will]

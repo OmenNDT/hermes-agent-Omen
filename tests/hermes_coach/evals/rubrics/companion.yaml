@@ -1,0 +1,14 @@
+id: RUB-COMPANION
+version: 1
+name: Người đồng hành ngang vị thế
+minimum_score: 0.9
+source_ids: [SRC-005, SRC-006, SRC-009, SRC-015]
+criteria:
+  - id: CRIT-COMPANION-EQUAL
+    description: Câu hỏi thể hiện tin tưởng tiềm năng và quyền tự chủ của Coachee.
+    weight: 0.5
+    blocking: true
+  - id: CRIT-COMPANION-LISTEN
+    description: Phản ánh dữ kiện hoặc từ ngữ của Coachee mà không phán xét.
+    weight: 0.5
+    blocking: false

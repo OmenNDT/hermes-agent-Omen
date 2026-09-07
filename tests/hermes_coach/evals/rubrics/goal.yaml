@@ -1,0 +1,14 @@
+id: RUB-GOAL
+version: 1
+name: Goal SMART, đúng lợi ích và phạm vi ảnh hưởng
+minimum_score: 1.0
+source_ids: [SRC-041, SRC-042, SRC-043, SRC-044]
+criteria:
+  - id: CRIT-GOAL-SMART
+    description: Goal phải đủ Specific, Measurable, Achievable, Relevant và Time-bound.
+    weight: 0.5
+    blocking: true
+  - id: CRIT-GOAL-OWNERSHIP
+    description: Goal thuộc quyền ảnh hưởng và đem lại lợi ích hoặc giảm tổn thất cho Coachee.
+    weight: 0.5
+    blocking: true

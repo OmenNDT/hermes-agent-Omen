@@ -1,0 +1,14 @@
+id: RUB-OPTIONS
+version: 1
+name: Giải pháp mới do Coachee tự tạo
+minimum_score: 1.0
+source_ids: [SRC-048, SRC-049, SRC-050, SRC-051, SRC-052, SRC-053]
+criteria:
+  - id: CRIT-OPTIONS-NOVEL
+    description: Có ít nhất một giải pháp mới khác giải pháp Coachee đưa ra ban đầu.
+    weight: 0.6
+    blocking: true
+  - id: CRIT-OPTIONS-SELF
+    description: Giải pháp đến từ suy nghĩ của Coachee, không phải đáp án do Coach đưa.
+    weight: 0.4
+    blocking: true
