@@ -355,3 +355,125 @@ def test_export_writes_nothing_to_the_database(database: CoachDatabase) -> None:
         "SELECT COUNT(*) AS total FROM memory_item"
     ).fetchone()["total"]
     assert before == after
+
+
+# Exporting one session's transcript. Separate from the records export above:
+# the Coachee asked for "what we said", not "what the system concluded".
+
+
+def add_transcript(database: CoachDatabase) -> None:
+    from hermes_coach.infrastructure.repositories.session_message_repository import (
+        SessionMessageRepository,
+        SessionMessageRow,
+    )
+
+    lines = [
+        ("coachee", "Tôi muốn chuyển sang vai trò kiến trúc sư.", "goal"),
+        ("coach", "Điều gì khiến việc này quan trọng với bạn?", "goal"),
+        ("coachee", f"Khoá của tôi là {SECRET}", "goal"),
+    ]
+    with database.transaction():
+        repository = SessionMessageRepository(database.connection)
+        for index, (role, content, stage) in enumerate(lines):
+            repository.add(
+                SessionMessageRow(
+                    id=f"message-{index}",
+                    session_id=SESSION,
+                    sequence_no=index,
+                    role=role,
+                    content=content,
+                    coaching_stage=stage,
+                    created_at=NOW,
+                )
+            )
+
+
+def export_session(database: CoachDatabase) -> dict:
+    return ExportService(database, profile_id=PROFILE).session_to_json(SESSION, now=NOW)
+
+
+def test_a_session_export_carries_its_turns_in_order(database: CoachDatabase) -> None:
+    add_transcript(database)
+    turns = export_session(database)["turns"]
+    assert [turn["voice"] for turn in turns] == ["coachee", "coach", "coachee"]
+
+
+def test_a_session_export_keeps_the_coachees_own_words(
+    database: CoachDatabase,
+) -> None:
+    add_transcript(database)
+    turns = export_session(database)["turns"]
+    assert turns[0]["content"] == "Tôi muốn chuyển sang vai trò kiến trúc sư."
+
+
+def test_a_credential_in_the_transcript_is_redacted(database: CoachDatabase) -> None:
+    """Export is the moment data leaves in bulk, exactly as for records."""
+    add_transcript(database)
+    payload = export_session(database)
+    assert SECRET not in str(payload)
+    assert payload["redacted_count"] == 1
+
+
+def test_a_session_export_carries_the_disclosure(database: CoachDatabase) -> None:
+    """An exported copy outlives the screen that explained the storage."""
+    add_transcript(database)
+    disclosure = export_session(database)["disclosure"]
+    assert disclosure["encrypted_at_rest"] is False
+    assert disclosure["note"]
+
+
+def test_a_session_export_names_the_session_and_the_moment(
+    database: CoachDatabase,
+) -> None:
+    add_transcript(database)
+    payload = export_session(database)
+    assert payload["session_id"] == SESSION
+    assert payload["exported_at"] == NOW
+
+
+def test_a_session_with_no_turns_exports_an_empty_transcript(
+    database: CoachDatabase,
+) -> None:
+    """A session the retention window emptied is not an error."""
+    payload = export_session(database)
+    assert payload["turns"] == []
+    assert payload["redacted_count"] == 0
+
+
+def test_a_deleted_line_stays_out_of_the_export(database: CoachDatabase) -> None:
+    """Export reads through the same active scope as every other read."""
+    add_transcript(database)
+    with database.transaction():
+        database.connection.execute(
+            "UPDATE session_message SET deleted_at = :now WHERE id = :id",
+            {"now": NOW, "id": "message-0"},
+        )
+    turns = export_session(database)["turns"]
+    assert all("kiến trúc sư" not in turn["content"] for turn in turns)
+
+
+def test_another_sessions_lines_are_not_included(database: CoachDatabase) -> None:
+    from hermes_coach.infrastructure.repositories.session_message_repository import (
+        SessionMessageRepository,
+        SessionMessageRow,
+    )
+
+    add_transcript(database)
+    with database.transaction():
+        database.connection.execute(
+            "INSERT INTO coaching_session (id, started_at, coaching_stage) "
+            "VALUES (:id, :now, 'goal')",
+            {"id": "session-2", "now": NOW},
+        )
+        SessionMessageRepository(database.connection).add(
+            SessionMessageRow(
+                id="other-1",
+                session_id="session-2",
+                sequence_no=0,
+                role="coachee",
+                content="Phiên khác",
+                created_at=NOW,
+            )
+        )
+    turns = export_session(database)["turns"]
+    assert all(turn["content"] != "Phiên khác" for turn in turns)

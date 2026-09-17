@@ -62,6 +62,7 @@ EXPECTED_SURFACE = {
     "coach.journey",
     "coach.check_in.answer",
     "coach.export",
+    "coach.session.export",
     "coach.trash",
     "coach.trash.delete",
     "coach.trash.restore",

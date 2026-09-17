@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { describeFailure, useCoachApi } from "@/lib/use-coach-today";
 import type { JourneySession, JourneyTurn } from "./index";
+import { exportSessionAsPdf } from "./export-pdf";
 import { Journey } from "./index";
 
 export function JourneyRoute() {
@@ -31,6 +32,9 @@ export function JourneyRoute() {
     };
   }, [api]);
 
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
+
   const onOpen = useCallback(
     (sessionId: string) => {
       if (api === null) return;
@@ -49,6 +53,20 @@ export function JourneyRoute() {
     [api],
   );
 
+  const onExport = useCallback(
+    (sessionId: string) => {
+      if (api === null) return;
+      setExporting(true);
+      setExportError(null);
+      // Fetched fresh rather than printing what is on screen: the export goes
+      // through the server's redaction, which the transcript view does not.
+      exportSessionAsPdf(api, sessionId)
+        .catch((reason: unknown) => setExportError(describeFailure(reason)))
+        .finally(() => setExporting(false));
+    },
+    [api],
+  );
+
   const onClose = useCallback(() => {
     setOpenId(null);
     setOpenTurns(null);
@@ -57,6 +75,9 @@ export function JourneyRoute() {
 
   return (
     <Journey
+      onExport={onExport}
+      exporting={exporting}
+      exportError={exportError}
       sessions={sessions ?? []}
       loading={api !== null && sessions === null && error === null}
       error={error}

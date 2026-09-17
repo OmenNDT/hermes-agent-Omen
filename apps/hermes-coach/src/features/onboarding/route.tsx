@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 import type { CoachApi } from "@/lib/coach-api";
 import { coachApi } from "@/lib/connection";
+import { ensureOnboardingSession } from "./ensure-session";
 import { Onboarding } from "./index";
 import type { CandidateCard, RecordAction } from "./record-confirmation";
 import { resolveCandidate } from "./resolve-candidate";
@@ -16,8 +17,12 @@ import type { ConsentDecision } from "./steps";
 
 /**
  * Onboarding runs inside one coaching session, so the records it confirms
- * belong to it. The id is stable for the page: a reload starts over rather
- * than silently adopting a half-finished session.
+ * belong to it.
+ *
+ * The id is fixed rather than minted per visit, and that is what makes a reload
+ * rejoin the same session instead of stranding its records under an id nobody
+ * holds any more. Onboarding happens once and has no "which one?" to resolve,
+ * so it needs none of the resume offer the coaching screen presents.
  */
 const ONBOARDING_SESSION = "onboarding";
 
@@ -42,14 +47,21 @@ export function OnboardingRoute() {
   useEffect(() => {
     if (api instanceof Error) return;
     let cancelled = false;
-    // The disclosure text comes from the backend so the browser and the
-    // launcher cannot drift into telling the Coachee different things.
-    api
-      .call("coach.today")
-      .then((today) => {
+    Promise.all([
+      // The disclosure text comes from the backend so the browser and the
+      // launcher cannot drift into telling the Coachee different things.
+      api.call("coach.today"),
+      // Nothing else creates it, and everything below writes into it. Started
+      // here rather than on the first confirmation so a Coachee who never
+      // reaches the records step still leaves a session behind to return to.
+      ensureOnboardingSession(api, ONBOARDING_SESSION),
+    ])
+      .then(([today, state]) => {
         if (cancelled) return;
-        const payload = today as { disclosure: { note: string } };
-        setNote(payload.disclosure.note);
+        setNote((today as { disclosure: { note: string } }).disclosure.note);
+        // Seeded from the read the ensure already did, rather than a third
+        // round trip that could disagree with it.
+        setCandidates(state.candidates);
       })
       .catch((reason: Error) => !cancelled && setError(reason.message));
     return () => {

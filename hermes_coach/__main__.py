@@ -12,7 +12,11 @@ from __future__ import annotations
 
 import argparse
 import logging
+import socket
 import sys
+import threading
+import time
+import webbrowser
 from pathlib import Path
 
 import uvicorn
@@ -36,11 +40,19 @@ from hermes_coach.domain.clock import render
 from hermes_coach.infrastructure.sqlite.database import CoachDatabase
 
 
+LOGGER = logging.getLogger("hermes_coach")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="hermes-coach", description="Hermes Coach")
     parser.add_argument("--profile", default=DEFAULT_PROFILE)
     parser.add_argument(
         "--port", type=int, default=0, help="0 picks a free loopback port"
+    )
+    parser.add_argument(
+        "--open",
+        action="store_true",
+        help="Open the browser on the token URL once the server accepts",
     )
     return parser
 
@@ -110,7 +122,9 @@ def main(argv: list[str] | None = None, *, agent_factory=None) -> int:
 
     try:
         with profile_lock(profile):
-            return _serve(profile, arguments.port, agent_factory)
+            return _serve(
+                profile, arguments.port, agent_factory, open_browser=arguments.open
+            )
     except (ProfileLocked, PortUnavailable) as refused:
         # Both mean the same thing to the operator: something is already there.
         # Said in one line, before any URL is printed.
@@ -118,7 +132,9 @@ def main(argv: list[str] | None = None, *, agent_factory=None) -> int:
         return 1
 
 
-def _serve(profile, port: int, agent_factory=None) -> int:
+def _serve(
+    profile, port: int, agent_factory=None, *, open_browser: bool = False
+) -> int:
     from datetime import datetime, timezone
 
     handshake, database = start(profile, port=port, now=render(datetime.now(timezone.utc)))
@@ -126,7 +142,7 @@ def _serve(profile, port: int, agent_factory=None) -> int:
         print(f"Hermes Coach — profile {profile.name}")
         print(f"  {handshake.disclosure['note']}")
         ui = resolve_ui_directory()
-        print(f"  http://{LOOPBACK}:{handshake.port}?token={handshake.token}")
+        print(f"  {browser_url(handshake.port, handshake.token)}")
         if ui is None:
             print("  UI chua build; mo link tren se 404.")
             print("  Chay: npm run -w apps/hermes-coach build")
@@ -140,6 +156,15 @@ def _serve(profile, port: int, agent_factory=None) -> int:
             print("  o dia va quyen ghi truoc khi dung tiep.")
         elif handshake.backup_path:
             print(f"  da sao luu: {handshake.backup_path}")
+
+        if open_browser:
+            # A thread, because `uvicorn.run` blocks and the browser must
+            # not be sent to a port that is not listening yet.
+            threading.Thread(
+                target=_open_when_ready,
+                args=(handshake.port, handshake.token),
+                daemon=True,
+            ).start()
 
         use_selector_event_loop()
         uvicorn.run(
@@ -172,6 +197,47 @@ def resolve_ui_directory() -> Path | None:
         if (candidate / "index.html").is_file():
             return candidate
     return None
+
+
+def browser_url(port: int, token: str) -> str:
+    """The address the page must be opened on.
+
+    The token belongs in the URL because that is the only place the page can
+    read it from: it is never written to disk or to browser storage, so a
+    bookmark of this address stops working when the process ends, which is the
+    intended lifetime.
+    """
+    return f"http://{LOOPBACK}:{port}?token={token}"
+
+
+def _port_accepts(port: int) -> bool:
+    """Whether the server is listening yet."""
+    with socket.socket() as probe:
+        probe.settimeout(0.25)
+        return probe.connect_ex((LOOPBACK, port)) == 0
+
+
+def _open_when_ready(
+    port: int, token: str, *, attempts: int = 60, pause: float = 0.25
+) -> None:
+    """Open the browser once the port accepts, and never at the cost of the run.
+
+    Polls rather than sleeping a fixed amount: a cold start is slower than a
+    warm one, and a browser sent to a port that is not listening shows a
+    connection error the user has no way to read as "still starting".
+    """
+    for _ in range(attempts):
+        if _port_accepts(port):
+            try:
+                webbrowser.open(browser_url(port, token))
+            except Exception:
+                # The server is the product; the browser is a convenience. The
+                # URL is already on the console, so a failure here costs the
+                # user one copy-paste rather than the session.
+                LOGGER.exception("could not open a browser")
+            return
+        time.sleep(pause)
+    LOGGER.warning("server did not accept within the wait; browser not opened")
 
 
 def _adapter_for(agent_factory):

@@ -46,6 +46,11 @@ export interface JourneyProps {
   openError: string | null;
   onOpen: (sessionId: string) => void;
   onClose: () => void;
+  /** Print the open session, which is how the Coachee saves it as a PDF. */
+  onExport?: (sessionId: string) => void;
+  /** Set while the export is being fetched, so the button cannot be double-fired. */
+  exporting?: boolean;
+  exportError?: string | null;
 }
 
 /**
@@ -85,6 +90,9 @@ export function Journey({
   openError,
   onOpen,
   onClose,
+  onExport,
+  exporting = false,
+  exportError = null,
 }: JourneyProps) {
   if (error) {
     return (
@@ -160,6 +168,21 @@ export function Journey({
                   >
                     Đóng lại
                   </button>
+                  {onExport && openTurns !== null && openTurns.length > 0 && (
+                    <button
+                      type="button"
+                      disabled={exporting}
+                      onClick={() => onExport(session.id)}
+                      data-testid={`journey-export-${session.id}`}
+                    >
+                      {exporting ? "Đang chuẩn bị…" : "Xuất PDF"}
+                    </button>
+                  )}
+                  {exportError && (
+                    <p role="alert" data-testid="journey-export-error">
+                      {exportError}
+                    </p>
+                  )}
                   {openError && (
                     <p role="alert" data-testid="journey-transcript-error">
                       {openError}

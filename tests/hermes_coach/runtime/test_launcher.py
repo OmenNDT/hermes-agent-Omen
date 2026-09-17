@@ -177,3 +177,61 @@ def test_no_build_anywhere_is_not_an_error(monkeypatch, tmp_path) -> None:
     (tmp_path / "hermes_coach").mkdir()
     monkeypatch.setattr(launcher, "__file__", str(tmp_path / "hermes_coach" / "x.py"))
     assert launcher.resolve_ui_directory() is None
+
+
+# Opening the browser. A single-user local app prints a URL carrying a
+# one-time token, and copying that by hand is the whole friction the
+# double-click launcher exists to remove.
+
+
+def test_the_browser_is_not_opened_unless_asked() -> None:
+    """Default off, so an automated run never launches a browser."""
+    assert build_parser().parse_args([]).open is False
+
+
+def test_the_browser_can_be_asked_for() -> None:
+    assert build_parser().parse_args(["--open"]).open is True
+
+
+def test_the_opened_url_carries_the_port_and_token() -> None:
+    """A URL without the token loads a page that cannot reach the socket."""
+    from hermes_coach.__main__ import browser_url
+
+    assert browser_url(8990, "tok-123") == "http://127.0.0.1:8990?token=tok-123"
+
+
+def test_the_browser_waits_until_the_port_accepts(monkeypatch) -> None:
+    """Opening too early shows the browser a connection error, not the app."""
+    import hermes_coach.__main__ as launcher
+
+    accepting: list[bool] = [False, False, True]
+    opened: list[str] = []
+    monkeypatch.setattr(launcher, "_port_accepts", lambda port: accepting.pop(0))
+    monkeypatch.setattr(launcher.webbrowser, "open", lambda url: opened.append(url))
+
+    launcher._open_when_ready(8990, "tok", attempts=5, pause=0)
+    assert opened == ["http://127.0.0.1:8990?token=tok"]
+
+
+def test_a_port_that_never_accepts_opens_nothing(monkeypatch) -> None:
+    import hermes_coach.__main__ as launcher
+
+    opened: list[str] = []
+    monkeypatch.setattr(launcher, "_port_accepts", lambda port: False)
+    monkeypatch.setattr(launcher.webbrowser, "open", lambda url: opened.append(url))
+
+    launcher._open_when_ready(8990, "tok", attempts=3, pause=0)
+    assert opened == []
+
+
+def test_a_browser_that_fails_to_open_does_not_take_the_server_down(monkeypatch) -> None:
+    """The server is the product; the browser is a convenience."""
+    import hermes_coach.__main__ as launcher
+
+    def explode(url: str) -> None:
+        raise OSError("no browser on this machine")
+
+    monkeypatch.setattr(launcher, "_port_accepts", lambda port: True)
+    monkeypatch.setattr(launcher.webbrowser, "open", explode)
+
+    launcher._open_when_ready(8990, "tok", attempts=1, pause=0)

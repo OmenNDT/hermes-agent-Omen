@@ -13,6 +13,8 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 
+import pathlib
+
 import pytest
 
 from hermes_coach.application.retention_service import (
@@ -169,15 +171,42 @@ def test_a_resolved_candidate_is_not_temporary_data(
     assert count(database, "candidate_record") == 1
 
 
-def test_a_missing_expiry_still_purges_at_ninety_days_from_creation(
+def test_transcript_without_a_deadline_is_kept(database: CoachDatabase) -> None:
+    """NULL expiry means durable, and for transcript that is now the norm.
+
+    This assertion runs the opposite way round from the one it replaces. That
+    one read "a writer that forgets the expiry must not create immortal
+    transcript", and fell back to creation age so a careless writer could not
+    leave lines behind forever. The product then decided the transcript is kept
+    until the Coachee deletes it, so `CoachingTurnService` writes NULL on
+    purpose and migration 0006 cleared the deadlines already on disk. Under that
+    rule the old fallback deletes exactly the conversations the promise covers,
+    so it is the guard that has to change direction.
+    """
+    add_message(database, "message-no-expiry", expires_at=None)
+    retention(database).run(now=DAY_91)
+    assert count(database, "session_message") == 1
+
+
+def test_a_transcript_deadline_already_on_disk_is_still_honoured(
     database: CoachDatabase,
 ) -> None:
-    """A writer that forgets `expires_at` must not create immortal transcript."""
-    add_message(database, "message-no-expiry", expires_at=None)
-    retention(database).run(now=DAY_89)
-    assert count(database, "session_message") == 1
-    retention(database).run(now=DAY_90)
+    """Migration 0006 clears them; the sweep must not ignore one it finds."""
+    add_message(database, "message-legacy-deadline")
+    retention(database).run(now=DAY_91)
     assert count(database, "session_message") == 0
+
+
+def test_a_new_turn_writes_transcript_with_no_deadline() -> None:
+    """The durable promise holds only if the writer stops setting one.
+
+    Read from the writer rather than from a hand-built row: a test that only
+    exercised the sweep would still pass if `CoachingTurnService` quietly went
+    back to stamping a 90-day deadline on every line, and the promise would
+    then be false for every conversation held after that change.
+    """
+    source = pathlib.Path("hermes_coach/application/coaching_turn_service.py")
+    assert "transcript_expires_at = None" in source.read_text(encoding="utf-8")
 
 
 def test_durable_records_never_expire_by_age(database: CoachDatabase) -> None:

@@ -172,6 +172,10 @@ def register_coach_methods(
     # to reach it: `ExportService` and `TrashService` were referenced by no RPC
     # at all, so "xoá" and "tải dữ liệu về" were promises the UI could not keep.
     registry.register("coach.export", lambda params: _export(database, params, clock()))
+    registry.register(
+        "coach.session.export",
+        lambda params: _export_session(database, params, clock()),
+    )
     registry.register("coach.trash", lambda params: _trash(database))
     registry.register(
         "coach.trash.delete", lambda params: _trash_delete(database, params, clock())
@@ -230,6 +234,20 @@ def _today(database: CoachDatabase, now: str) -> dict[str, Any]:
         ),
         "disclosure": disclosure(),
     }
+
+
+def _export_session(
+    database: CoachDatabase, params: dict[str, Any], now: str
+) -> dict[str, Any]:
+    """One session's transcript, for the Coachee to keep.
+
+    The PDF itself is made by the browser's own print-to-PDF, so this returns
+    data rather than a file: bundling a PDF engine would mean shipping a
+    Vietnamese-capable font and a page-layout engine to solve a problem every
+    browser already solves correctly.
+    """
+    service = ExportService(database, profile_id=DEFAULT_PROFILE_ID)
+    return service.session_to_json(_required_str(params, "session_id"), now=now)
 
 
 def _export(
