@@ -58,7 +58,7 @@ interface SessionStatePayload {
  */
 const MESSAGE_FOR_CODE: Record<string, string> = {
   provider_not_configured:
-    "Chưa cấu hình mô hình cho Coach. Dữ liệu đã lưu vẫn xem được; chạy `claude login` rồi khởi động lại Coach để hỏi đáp.",
+    "Chưa cấu hình mô hình cho Coach. Dữ liệu đã lưu vẫn xem được; chạy `claude auth login` rồi khởi động lại Coach để hỏi đáp.",
   consent_withdrawn:
     "Bạn chưa đồng ý gửi dữ liệu tới mô hình, nên phần hỏi đáp chưa dùng được. Mở lại phần Bắt đầu để quyết định.",
   stale_revision:

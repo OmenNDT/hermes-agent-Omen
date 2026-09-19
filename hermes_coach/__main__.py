@@ -142,6 +142,7 @@ def _serve(
         print(f"Hermes Coach — profile {profile.name}")
         print(f"  {handshake.disclosure['note']}")
         ui = resolve_ui_directory()
+        announce_provider(agent_factory)
         print(f"  {browser_url(handshake.port, handshake.token)}")
         if ui is None:
             print("  UI chua build; mo link tren se 404.")
@@ -238,6 +239,23 @@ def _open_when_ready(
             return
         time.sleep(pause)
     LOGGER.warning("server did not accept within the wait; browser not opened")
+
+
+def announce_provider(agent_factory) -> None:
+    """Say which model is about to answer.
+
+    Printed from here, not from the CLI edge that resolves the provider: that
+    edge runs before `use_utf8_console`, so its Vietnamese reached a legacy
+    console as mojibake. Every other startup line already prints from here,
+    after the console can render it.
+
+    A factory without a `choice` — a test double, or one built before Coach
+    could reach more than one provider — is silent rather than an error.
+    """
+    choice = getattr(agent_factory, "choice", None)
+    if choice is None:
+        return
+    print(f"  mô hình: {choice.label} — {choice.model}")
 
 
 def _adapter_for(agent_factory):

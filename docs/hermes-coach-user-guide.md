@@ -2,13 +2,13 @@
 
 Ứng dụng coaching cục bộ, một người dùng, chỉ chạy trên loopback. Không đăng nhập, không truy cập từ máy khác.
 
-Mọi lệnh và kết quả dưới đây đã chạy thật trên Windows 11, lần kiểm gần nhất 2026-09-17. Phần nào chưa chạy được thì ghi rõ ở [Chưa hoạt động](#chưa-hoạt-động).
+Mọi lệnh và kết quả dưới đây đã chạy thật trên Windows 11, lần kiểm gần nhất 2026-09-19. Phần nào chưa chạy được thì ghi rõ ở [Chưa hoạt động](#chưa-hoạt-động).
 
 ---
 
 ## 1. Chuẩn bị
 
-Cần Python 3.12+, Node 20+, và một credential Anthropic.
+Cần Python 3.11–3.13, Node 20 trở lên, và một cách gọi mô hình (xem [Credential](#credential) ngay bên dưới — có đường miễn phí).
 
 ```bash
 # Python
@@ -23,9 +23,36 @@ npm run -w apps/hermes-coach build
 
 ### Credential
 
-Coach dùng Claude Haiku qua Anthropic Messages API, và đọc **đúng một nguồn** credential: token OAuth của Claude Code ở `~/.claude/.credentials.json`. Chạy `claude login` để tạo.
+Coach chạy được với **một trong bốn** đường dưới đây. Bạn chỉ cần một.
 
-Đây là credential thuê bao cấp cho Claude Code, dùng lại cho Coach là lựa chọn có chủ ý chứ không phải mặc định. `ANTHROPIC_API_KEY` **không được đọc** — đặt biến đó sẽ không có tác dụng gì. Hỗ trợ nó là ba dòng, cố ý chưa viết cho tới khi thật sự có key.
+| Đường | Cách bật | Mô hình mặc định |
+| --- | --- | --- |
+| Tài khoản Claude Code | `claude auth login` | `claude-haiku-4-5-20251001` |
+| Google Gemini | `setx GEMINI_API_KEY "..."` | `gemini-2.0-flash` |
+| OpenAI GPT | `setx OPENAI_API_KEY "..."` | `gpt-4o-mini` |
+| Claude qua API key | `setx ANTHROPIC_API_KEY "..."` | `claude-haiku-4-5-20251001` |
+
+Khoá Gemini có **mức miễn phí**, lấy tại <https://aistudio.google.com/apikey>.
+
+**Thứ tự chọn khi không chỉ định gì:** tài khoản Claude Code trước, rồi mới tới các khoá API theo thứ tự Anthropic → OpenAI → Gemini. Đặt tài khoản Claude Code lên trước là có chủ ý: dự án này là nhánh của `hermes-agent`, nơi `OPENAI_API_KEY` có thể đã được đặt cho việc khác, và một lần đổi mô hình âm thầm còn tệ hơn là không có mô hình.
+
+Muốn chỉ định thẳng thì dùng `--provider`:
+
+```bash
+hermes coach --provider gemini
+```
+
+Chỉ định mà thiếu khoá tương ứng thì Coach **từ chối**, không lặng lẽ chuyển sang thứ khác.
+
+Mỗi lần khởi động Coach in ra dòng `mô hình: ...` nên không bao giờ phải đoán mô hình nào đang trả lời.
+
+**Nếu báo lỗi không tìm thấy mô hình:** tên mô hình mặc định có thể đã đổi phía nhà cung cấp. Đổi bằng một biến, không cần sửa code:
+
+```bash
+setx COACH_MODEL "gemini-2.5-flash"
+```
+
+Về kỹ thuật, Gemini được gọi qua endpoint tương thích OpenAI của Google, nên cùng một thư viện phục vụ cả GPT lẫn Gemini và dự án không thêm phụ thuộc nào.
 
 Không có credential nào thì Coach **vẫn chạy** — nó báo một dòng cảnh báo, mọi dữ liệu đã lưu vẫn xem được, chỉ `coach.turn` trả `provider_not_configured`.
 
@@ -43,6 +70,7 @@ In ra:
 Hermes Coach — profile default
   Dữ liệu Coach lưu trên máy này và không được mã hoá. Người hoặc tiến trình
   có quyền đọc tệp đều đọc được nội dung.
+  mô hình: Claude (tài khoản Claude Code) — claude-haiku-4-5-20251001
   http://127.0.0.1:8976?token=4TnYoNjeaqZs83gWK3KOUkZSgif4oZcqfulgI7U5m1Q
 ```
 
@@ -56,6 +84,8 @@ Cổng mặc định là ngẫu nhiên còn trống. Token là mới mỗi lần
 | --- | --- |
 | `--port 8976` | Cố định cổng thay vì chọn ngẫu nhiên |
 | `--profile <tên>` | Dùng hồ sơ khác, mỗi hồ sơ một cơ sở dữ liệu riêng |
+| `--provider gemini` | Chỉ định mô hình: `claude-code`, `anthropic`, `openai`, `gemini` |
+| `--open` | Tự mở trình duyệt khi máy chủ sẵn sàng |
 | `--no-provider` | Chạy không mô hình; đọc dữ liệu vẫn được |
 
 Mỗi hồ sơ chỉ chạy được một tiến trình. Chạy lần hai trên cùng hồ sơ sẽ báo hồ sơ đang bị khoá và thoát.
@@ -115,16 +145,16 @@ Mọi mục tiêu, nhận thức, cam kết và ghi nhớ mà mô hình đề xu
 
 ```bash
 # Python
-.venv/Scripts/python.exe -m pytest tests/hermes_coach -q     # 1112 tests
+.venv/Scripts/python.exe -m pytest tests/hermes_coach -q     # 1156 tests
 
 # Web
 npm run -w apps/hermes-coach typecheck
 npm run -w apps/hermes-coach lint
-npm run -w apps/hermes-coach test                            # 246 tests
+npm run -w apps/hermes-coach test                            # 267 tests
 npm run -w apps/hermes-coach build
 ```
 
-Không cần credential và không cần mạng: mọi test provider đều dùng client giả.
+Không cần credential nào và không cần mạng: mọi test provider — Claude, GPT lẫn Gemini — đều chạy trên client giả.
 
 Hiện có **4 test Python trượt**, đều có sẵn từ trước — xem [Lỗi đang mở](#lỗi-đang-mở).
 
@@ -136,7 +166,8 @@ Hiện có **4 test Python trượt**, đều có sẵn từ trước — xem [L
 | --- | --- |
 | Mở link ra 404 | Chưa build UI. Chạy `npm run -w apps/hermes-coach build` |
 | Trang hiện nhưng báo offline | Mở địa chỉ không có `?token=`. Copy nguyên link launcher in ra |
-| `provider_not_configured` | Không tìm thấy credential Claude Code. Chạy `claude login` |
+| `provider_not_configured` | Chưa có đường nào tới mô hình. Chạy `claude auth login`, hoặc đặt `GEMINI_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` |
+| Báo không tìm thấy mô hình | Tên mô hình đã đổi phía nhà cung cấp. Đặt `COACH_MODEL` |
 | Báo hồ sơ đang bị khoá | Đã có một tiến trình Coach chạy trên hồ sơ đó |
 | `internal_error` | Xem console của backend — traceback đầy đủ nằm ở đó. Client cố tình không nhận chi tiết để tránh rò rỉ đường dẫn và nội dung prompt |
 

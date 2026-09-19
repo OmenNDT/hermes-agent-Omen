@@ -27,6 +27,8 @@ a 401 mid-session re-authenticates once and retries the same turn.
 from __future__ import annotations
 
 from collections.abc import Callable
+import os
+from dataclasses import dataclass
 from typing import Any
 
 from agent.anthropic_adapter import (
@@ -49,6 +51,77 @@ MAX_OUTPUT_TOKENS = 1024
 UNAUTHORIZED = 401
 
 
+# Gemini speaks OpenAI's wire format at this endpoint, so one agent class and
+# one SDK serve both it and GPT. A native Gemini client would be a second code
+# path and a new dependency for no behaviour Coach uses.
+GEMINI_OPENAI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
+
+# Overridable because providers rename models far more often than this project
+# ships. A rejected model name is then a one-line fix for the operator.
+MODEL_OVERRIDE_ENV = "COACH_MODEL"
+
+
+@dataclass(frozen=True)
+class ProviderChoice:
+    """One way to reach a model, resolved before the first coaching turn."""
+
+    name: str
+    label: str
+    env_var: str
+    model: str
+    # OpenAI's newer models require `max_completion_tokens`; the Gemini
+    # endpoint accepts only `max_tokens`. Naming it per provider beats
+    # discovering the difference from a rejected request mid-session.
+    token_param: str = "max_completion_tokens"
+    base_url: str | None = None
+    api_key: str | None = None
+
+    def with_key(self, api_key: str, model: str) -> "ProviderChoice":
+        return ProviderChoice(
+            name=self.name,
+            label=self.label,
+            env_var=self.env_var,
+            model=model,
+            token_param=self.token_param,
+            base_url=self.base_url,
+            api_key=api_key,
+        )
+
+
+# Order is the fallback order when nothing was asked for explicitly.
+PROVIDERS: tuple[ProviderChoice, ...] = (
+    ProviderChoice(
+        name="anthropic",
+        label="Claude (API key)",
+        env_var="ANTHROPIC_API_KEY",
+        model=HAIKU_MODEL,
+        token_param="max_tokens",
+    ),
+    ProviderChoice(
+        name="openai",
+        label="OpenAI GPT",
+        env_var="OPENAI_API_KEY",
+        model="gpt-4o-mini",
+    ),
+    ProviderChoice(
+        name="gemini",
+        label="Google Gemini",
+        env_var="GEMINI_API_KEY",
+        model="gemini-2.0-flash",
+        token_param="max_tokens",
+        base_url=GEMINI_OPENAI_BASE_URL,
+    ),
+)
+
+CLAUDE_CODE = ProviderChoice(
+    name="claude-code",
+    label="Claude (tài khoản Claude Code)",
+    env_var="(không cần)",
+    model=HAIKU_MODEL,
+    token_param="max_tokens",
+)
+
+
 class NoCoachCredential(RuntimeError):
     """No usable credential was found. Reportable, not a crash mid-turn."""
 
@@ -60,6 +133,120 @@ def _is_unauthorized(error: Exception) -> bool:
     would tie this module to one SDK version for no extra certainty.
     """
     return getattr(error, "status_code", None) == UNAUTHORIZED
+
+
+def resolve_provider(
+    requested: str | None, *, has_claude_code: bool
+) -> ProviderChoice:
+    """Decide which model Coach will use, before it is needed.
+
+    A Claude Code subscription still wins when nothing was asked for, so an
+    existing install keeps the provider it had. Anything else would let an
+    `OPENAI_API_KEY` that happens to be set for the rest of Hermes silently
+    move Coach onto a different model.
+
+    An explicit choice is never quietly downgraded: asking for Gemini without a
+    Gemini key is an error, not a reason to run something else.
+    """
+    by_name = {entry.name: entry for entry in PROVIDERS}
+    override = os.environ.get(MODEL_OVERRIDE_ENV, "").strip()
+
+    if requested:
+        if requested == CLAUDE_CODE.name:
+            if not has_claude_code:
+                raise NoCoachCredential(
+                    "chọn claude-code nhưng máy chưa đăng nhập; chạy `claude auth login`"
+                )
+            return CLAUDE_CODE.with_key("", override or CLAUDE_CODE.model)
+        entry = by_name.get(requested)
+        if entry is None:
+            known = ", ".join([*by_name, CLAUDE_CODE.name])
+            raise NoCoachCredential(
+                f"không biết nhà cung cấp {requested!r}; chọn một trong: {known}"
+            )
+        key = os.environ.get(entry.env_var, "").strip()
+        if not key:
+            raise NoCoachCredential(
+                f"chọn {entry.name} nhưng chưa đặt {entry.env_var}"
+            )
+        return entry.with_key(key, override or entry.model)
+
+    if has_claude_code:
+        return CLAUDE_CODE.with_key("", override or CLAUDE_CODE.model)
+
+    for entry in PROVIDERS:
+        key = os.environ.get(entry.env_var, "").strip()
+        if key:
+            return entry.with_key(key, override or entry.model)
+
+    keys = ", ".join(entry.env_var for entry in PROVIDERS)
+    raise NoCoachCredential(
+        "chưa có cách nào để gọi mô hình. Chọn một trong hai:\n"
+        "  - đăng nhập tài khoản Claude: `claude auth login`\n"
+        f"  - hoặc đặt một trong các biến môi trường: {keys}"
+    )
+
+
+class OpenAICompatibleAgent:
+    """The adapter's agent, over any endpoint that speaks OpenAI's wire format.
+
+    Serves GPT and Gemini alike. The system prompt leads every request as the
+    first message rather than being folded into the history, which is what
+    keeps the cached prefix byte-identical as the conversation grows.
+    """
+
+    # The adapter refuses any agent that reports tools. None are ever sent.
+    tools: list[str] = []
+
+    def __init__(
+        self,
+        *,
+        client: Any,
+        ephemeral_system_prompt: str,
+        model: str,
+        max_tokens: int = MAX_OUTPUT_TOKENS,
+        token_param: str = "max_completion_tokens",
+        **_hermes_only: Any,
+    ) -> None:
+        self._client = client
+        self._model = model
+        self._system = ephemeral_system_prompt
+        self._max_tokens = max_tokens
+        self._token_param = token_param
+        self._history: list[dict[str, str]] = []
+
+    def run(self, message: str) -> str:
+        self._history.append({"role": "user", "content": message})
+        try:
+            reply = self._client.chat.completions.create(
+                model=self._model,
+                messages=[
+                    {"role": "system", "content": self._system},
+                    *self._history,
+                ],
+                **{self._token_param: self._max_tokens},
+            )
+        except Exception:
+            # A turn that never reached the model is not part of the
+            # conversation. Leaving it in would send two consecutive user
+            # messages next time, which every provider rejects.
+            self._history.pop()
+            raise
+        text = _text_of_choice(reply)
+        self._history.append({"role": "assistant", "content": text})
+        return text
+
+    def __repr__(self) -> str:
+        # Explicit, so a traceback cannot spill the client and its credential.
+        return f"OpenAICompatibleAgent(model={self._model!r}, turns={len(self._history)})"
+
+
+def _text_of_choice(reply: Any) -> str:
+    """The assistant text, or empty when the model returned none."""
+    choices = getattr(reply, "choices", None) or []
+    if not choices:
+        return ""
+    return getattr(getattr(choices[0], "message", None), "content", "") or ""
 
 
 class AnthropicDirectAgent:
@@ -135,12 +322,30 @@ class AnthropicDirectAgent:
         return f"AnthropicDirectAgent(model={self._model!r}, turns={len(self._history)})"
 
 
-def build_coach_agent_factory(model: str = HAIKU_MODEL):
+def build_coach_agent_factory(provider: str | None = None):
     """Return the factory `CoachRuntimeAdapter` calls to create its agent.
 
-    Raises `NoCoachCredential` here, at wiring time, rather than letting the
-    first coaching turn fail in front of the Coachee.
+    Resolves the provider here, at wiring time, rather than letting the first
+    coaching turn fail in front of the Coachee. The returned factory also
+    carries `choice`, so the launcher can say which model it is about to use —
+    a silent provider switch is worse than a missing one.
     """
+    choice = resolve_provider(provider, has_claude_code=_has_claude_code())
+
+    if choice.name == CLAUDE_CODE.name:
+        factory = _claude_code_factory(choice.model)
+    else:
+        factory = _api_key_factory(choice)
+
+    # Attached rather than returned as a pair: `agent_factory` is passed on to
+    # the adapter as a bare callable, and widening that seam to a tuple would
+    # change a contract three modules rely on for one line of console output.
+    factory.choice = choice
+    return factory
+
+
+def _claude_code_factory(model: str):
+    """The subscription path: a refreshable OAuth token, no API key."""
     # One client, shared by every session and replaced in place when a token
     # expires, so a re-auth in one session does not leave the others stale.
     holder: dict[str, Any] = {"client": _fresh_client()}
@@ -161,6 +366,53 @@ def build_coach_agent_factory(model: str = HAIKU_MODEL):
     return factory
 
 
+def _api_key_factory(choice: ProviderChoice):
+    """The API-key path, shared by Claude, GPT and Gemini.
+
+    Anthropic keeps its own SDK because its request shape differs; GPT and
+    Gemini share one, because Gemini's compatible endpoint speaks the same
+    wire format. The client is built once and reused: an API key does not
+    expire mid-session the way an OAuth token does.
+    """
+    if choice.name == "anthropic":
+        client = build_anthropic_client(choice.api_key or "")
+
+        def anthropic_factory(**kwargs: Any) -> AnthropicDirectAgent:
+            kwargs.pop("model", None)
+            return AnthropicDirectAgent(
+                client=client, model=choice.model, **kwargs
+            )
+
+        return anthropic_factory
+
+    from openai import OpenAI
+
+    client = OpenAI(api_key=choice.api_key, base_url=choice.base_url)
+
+    def openai_factory(**kwargs: Any) -> OpenAICompatibleAgent:
+        kwargs.pop("model", None)
+        return OpenAICompatibleAgent(
+            client=client,
+            model=choice.model,
+            token_param=choice.token_param,
+            **kwargs,
+        )
+
+    return openai_factory
+
+
+def _has_claude_code() -> bool:
+    """Whether a Claude Code credential is usable right now.
+
+    Asked without raising, because a missing subscription is now an ordinary
+    state: it just means one of the API-key providers is used instead.
+    """
+    try:
+        return bool(resolve_claude_code_token())
+    except Exception:
+        return False
+
+
 def _fresh_client() -> Any:
     """A client holding a token that is valid right now.
 
@@ -171,7 +423,7 @@ def _fresh_client() -> Any:
     token = resolve_claude_code_token()
     if not token:
         raise NoCoachCredential(
-            "no valid Claude Code credential; run `claude login`, then start Coach again"
+            "no valid Claude Code credential; run `claude auth login`, then start Coach again"
         )
     return build_anthropic_client(token)
 

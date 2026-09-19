@@ -11,12 +11,21 @@ import argparse
 
 
 def _run_coach(args: argparse.Namespace) -> int:
+    """Run the backend and exit with its code.
+
+    `SystemExit` rather than a plain return, because the shared Hermes
+    dispatcher calls `args.func(args)` and discards the result. Returning was
+    enough to make `hermes coach` report success after refusing to start on a
+    locked profile, which left the double-click launcher unable to tell that
+    apart from a clean shutdown. Raising here fixes the coach edge without
+    changing dispatch for every other Hermes subcommand.
+    """
     from hermes_coach.__main__ import main as coach_main
 
     argv = ["--profile", args.profile, "--port", str(args.port)]
     if args.open:
         argv.append("--open")
-    return coach_main(argv, agent_factory=_agent_factory(args))
+    raise SystemExit(coach_main(argv, agent_factory=_agent_factory(args)))
 
 
 def _agent_factory(args: argparse.Namespace):
@@ -30,11 +39,15 @@ def _agent_factory(args: argparse.Namespace):
     from hermes_cli.coach_provider import NoCoachCredential, build_coach_agent_factory
 
     try:
-        return build_coach_agent_factory()
+        factory = build_coach_agent_factory(getattr(args, "provider", None))
     except NoCoachCredential as missing:
         print(f"warning: {missing}")
         print("  Coach starts without a model; stored data stays usable.")
         return None
+
+    # The launcher announces which provider this is, once the console can
+    # render Vietnamese. Printing it here would be too early.
+    return factory
 
 
 def build_coach_parser(subparsers) -> None:
@@ -57,6 +70,14 @@ def build_coach_parser(subparsers) -> None:
         "--open",
         action="store_true",
         help="Open the browser on the token URL once the server accepts",
+    )
+    coach_parser.add_argument(
+        "--provider",
+        choices=["claude-code", "anthropic", "openai", "gemini"],
+        help=(
+            "Which model to use. Default: the Claude Code account if signed "
+            "in, otherwise whichever API key is set."
+        ),
     )
     coach_parser.add_argument(
         "--no-provider",

@@ -235,3 +235,41 @@ def test_a_browser_that_fails_to_open_does_not_take_the_server_down(monkeypatch)
     monkeypatch.setattr(launcher.webbrowser, "open", explode)
 
     launcher._open_when_ready(8990, "tok", attempts=1, pause=0)
+
+
+# Which model is in use, said at startup.
+#
+# Printed by the launcher rather than by the CLI edge that resolves it: the
+# edge runs before `use_utf8_console`, so its Vietnamese reached a cp1252
+# console as mojibake. Every other startup line already prints from here.
+
+
+def test_the_chosen_model_is_announced(capsys) -> None:
+    from hermes_coach.__main__ import announce_provider
+
+    class Choice:
+        label = "Google Gemini"
+        model = "gemini-2.0-flash"
+
+    class Factory:
+        choice = Choice()
+
+    announce_provider(Factory())
+    printed = capsys.readouterr().out
+    assert "Google Gemini" in printed
+    assert "gemini-2.0-flash" in printed
+
+
+def test_a_run_without_a_provider_announces_nothing(capsys) -> None:
+    from hermes_coach.__main__ import announce_provider
+
+    announce_provider(None)
+    assert capsys.readouterr().out == ""
+
+
+def test_a_factory_with_no_choice_is_not_an_error(capsys) -> None:
+    """A test double, or an older factory, must not break startup."""
+    from hermes_coach.__main__ import announce_provider
+
+    announce_provider(lambda **kwargs: None)
+    assert capsys.readouterr().out == ""

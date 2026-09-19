@@ -8,3 +8,11 @@ web/package-lock.json linguist-generated=true
 Dockerfile  text eol=lf
 *.dockerfile text eol=lf
 docker/entrypoint.sh text eol=lf
+
+# Enforce CRLF for Windows batch files.
+# cmd.exe mis-parses an LF-only .bat: `setlocal EnableDelayedExpansion` is read
+# as two commands, so every `!VAR!` stays a literal string. In the launcher that
+# silently turns the consent prompts into always-no, and the auto-setup it
+# guards never runs. Verified: the same file fails with LF and works with CRLF.
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
